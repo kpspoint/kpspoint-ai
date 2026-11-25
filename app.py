@@ -6,7 +6,7 @@ from PIL import Image
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # AI മോഡൽ സെറ്റ് ചെയ്യുന്നു
-model = genai.GenerativeModel("gemini-4-hydrogen")
+model = genai.GenerativeModel("gemini-4-carbon")
 
 st.title("🤖 kpspoint AI Assistant")
 st.write("ചിത്രങ്ങളോ ഫയലുകളോ അപ്‌ലോഡ് ചെയ്ത് ചോദിക്കാം!")
