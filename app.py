@@ -1,7 +1,7 @@
 import streamlit as st
 import google.generativeai as genai
 
-genai.configure(api_key="st.secrets["YOUR_KEY_NAME"] 
+genai.configure(api_key="st.secrets["GEMINI_API_KEY"] 
 
 
 # AI മോഡൽ സെറ്റ് ചെയ്യുക
