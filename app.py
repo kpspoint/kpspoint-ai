@@ -5,7 +5,7 @@ import google.generativeai as genai
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # AI മോഡൽ സെറ്റ് ചെയ്യുന്നു
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-3.5-flash-lite")
 
 # ആപ്പിന്റെ ടൈറ്റിൽ
 st.title("🤖 kpspoint AI Assistant")
