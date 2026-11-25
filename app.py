@@ -1,19 +1,14 @@
 import streamlit as st
 import google.generativeai as genai
 from PIL import Image
-# 1. പേജ് കോൺഫിഗറേഷൻ (ബ്രൗസർ ടാബിലെ ഐക്കൺ മാറ്റാൻ)
-st.set_page_config(
-    page_title="kpspoint AI Assistant",
-    page_icon="logo.png",
-    layout="centered"
-)
+
 # API Key സുരക്ഷിതമായി വായിക്കുന്നു
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # AI മോഡൽ സെറ്റ് ചെയ്യുന്നു
 model = genai.GenerativeModel("gemini-3.8-flash")
 
-st.title("logo.png" kpspoint AI Assistant")
+st.title("🤖 kpspoint AI Assistant")
 st.write("ചിത്രങ്ങളോ ഫയലുകളോ അപ്‌ലോഡ് ചെയ്ത് ചോദിക്കാം!")
 
 # ചാറ്റ് ഹിസ്റ്ററി
