@@ -57,3 +57,30 @@ if prompt or uploaded_file:
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
             except Exception as e:
                 st.error(f"എറർ: {e}")
+                # --- വീഡിയോ ജനറേറ്റർ ഭാഗം ---
+st.markdown("---")
+st.header("🎥 AI വീഡിയോ ജനറേറ്റർ")
+st.write("ഒരു വാക്യം നൽകിയാൽ AI അതിനനുസരിച്ചുള്ള വീഡിയോ ഉണ്ടാക്കി തരും!")
+
+import replicate
+
+# Replicate ടോക്കൺ സെറ്റ് ചെയ്യുന്നു
+replicate.Client(api_token=st.secrets["REPLICATE_API_TOKEN"])
+
+video_prompt = st.text_input("വീഡിയോയ്ക്കുള്ള വിവരണം (ഇംഗ്ലീഷിൽ നൽകുക):", placeholder="ഉദാ: A futuristic car driving through a neon city at night")
+
+if st.button("വീഡിയോ ഉണ്ടാക്കുക"):
+    if video_prompt:
+        with st.spinner("⏳ വീഡിയോ ഉണ്ടാക്കുന്നു... ഇതിന് 1-2 മിനിറ്റ് എടുത്തേക്കാം..."):
+            try:
+                # ഒരു ലളിതമായ Text-to-Video മോഡൽ ഉപയോഗിക്കുന്നു
+                output = replicate.run(
+                    "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
+                    input={"prompt": video_prompt}
+                )
+                st.success("✅ വീഡിയോ തയ്യാർ!")
+                st.video(output[0]) # വീഡിയോ കാണിക്കുന്നു
+            except Exception as e:
+                st.error(f"എറർ: {e}")
+    else:
+        st.warning("ദയവായി ഒരു വിവരണം നൽകുക!")
