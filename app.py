@@ -70,15 +70,30 @@ if user_email:
     st.sidebar.success(f"Logged in as: {user_email}")
     st.sidebar.metric("💰 Your Credits", credits)
     
-    if credits <= 0:
-        st.sidebar.error("❌ No credits left!")
-        st.sidebar.markdown("---")
-        st.sidebar.subheader("💳 Recharge Credits")
-        st.sidebar.write("**Price:** ₹100 for 10 Credits")
-        st.sidebar.write("**UPI ID:** shoukathali.kalathingalpalliyali@federal") #
-        st.sidebar.write("**PayPal:**  https://paypal.me/kpyard") # 
-        st.sidebar.write("Send screenshot to WhatsApp:  +918848703120") #
-        st.stop() # Stop the app if no credits
+    # ✅ ഇത് ഇവിടെ പേസ്റ്റ് ചെയ്യുക
+        if credits <= 0:
+            st.sidebar.error("❌ No credits left!")
+            st.sidebar.markdown("---")
+            st.sidebar.subheader("💳 Recharge Credits")
+            st.sidebar.write("**Price:** ₹100 = 10 Credits")
+            
+            # UPI QR കോഡ് കാണിക്കുന്നു
+            st.sidebar.markdown("#### 📱 Scan & Pay")
+            qr_buffer = generate_upi_qr()
+            st.sidebar.image(qr_buffer, width=200)
+            
+            # UPI ID ടെക്സ്റ്റായി കാണിക്കുന്നു
+            st.sidebar.code("shoukathali.kalathingalpalliyali@federal", language=None)
+            
+            st.sidebar.markdown("---")
+            st.sidebar.markdown("**🌍 International Users:**")
+            st.sidebar.link_button("Pay via PayPal 💵", "https://paypal.me/kpyard")
+            
+            st.sidebar.markdown("---")
+            st.sidebar.write("📸 **After payment**, send screenshot to:")
+            st.sidebar.write("**WhatsApp:** +91 88487 03120")
+            st.sidebar.write("We'll add your credits within 5 minutes! ⚡")
+            st.stop() # Stop the app if no credits
 
     # Tabs
     tab1, tab2, tab3 = st.tabs(["💬 AI Chat", "🎨 Image Generator", "🎥 Video Generator"])
