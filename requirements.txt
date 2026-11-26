@@ -3,3 +3,4 @@
    Pillow
    replicate
    supabase
+   qrcode
