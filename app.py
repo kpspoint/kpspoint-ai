@@ -48,9 +48,9 @@ if user_email:
         st.sidebar.markdown("---")
         st.sidebar.subheader("💳 Recharge Credits")
         st.sidebar.write("**Price:** ₹100 for 10 Credits")
-        st.sidebar.write("**UPI ID:** yourname@upi") # ⚠️ ഇവിടെ നിങ്ങളുടെ UPI ID ഇടുക
-        st.sidebar.write("**PayPal:** paypal.me/kpspoint") # ⚠️ ഇവിടെ നിങ്ങളുടെ PayPal ലിങ്ക് ഇടുക
-        st.sidebar.write("Send screenshot to WhatsApp: +91 XXXXX") # ⚠️ ഇവിടെ നിങ്ങളുടെ നമ്പർ ഇടുക
+        st.sidebar.write("**UPI ID:** yourname@upi") # shoukathali.kalathingalpalliyali@federal
+        st.sidebar.write("**PayPal:** paypal.me/kpspoint") # https://paypal.me/kpyard
+        st.sidebar.write("Send screenshot to WhatsApp: +91 XXXXX") # +918848703120
         st.stop() # Stop the app if no credits
 
     # Tabs
