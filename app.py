@@ -2,21 +2,25 @@ import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 import replicate
+import os
 
 # --- API Configuration ---
+# 1. Google Gemini Setup
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-# Stable model for free tier
-model = genai.GenerativeModel("gemini-3.8-flash") 
+model = genai.GenerativeModel("gemini-3.8-flash) 
 
-# --- Create Tabs ---
-tab1, tab2 = st.tabs(["💬 AI Chat & Analyzer", "🎥 AI Video Generator"])
+# 2. Replicate Setup (For Image & Video)
+os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
+
+# --- Create 3 Tabs ---
+tab1, tab2, tab3 = st.tabs(["💬 AI Chat", "🎨 Image Generator", "🎥 Video Generator"])
 
 # ==========================================
-# TAB 1: CHAT & IMAGE ANALYZER
+# TAB 1: CHAT & IMAGE ANALYZER (Gemini)
 # ==========================================
 with tab1:
     st.title("🤖 kpspoint AI Assistant")
-    st.write("ചിത്രങ്ങളോ ഫയലുകളോ അപ്‌ലോഡ് ചെയ്ത് ചോദിക്കാം!")
+    st.write("ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ!")
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -57,9 +61,34 @@ with tab1:
                     st.error(f"എറർ: {e}")
 
 # ==========================================
-# TAB 2: VIDEO GENERATOR
+# TAB 2: IMAGE GENERATOR (Replicate)
 # ==========================================
 with tab2:
+    st.title("🎨 AI Image Generator")
+    st.write("Generate stunning images just by typing a prompt!")
+
+    img_prompt = st.text_input("Enter image description (in English):", placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution")
+
+    if st.button("Generate Image 🖼️"):
+        if img_prompt:
+            with st.spinner("⏳ Generating image... This may take 10-20 seconds..."):
+                try:
+                    # Using Stable Diffusion XL (SDXL) model
+                    output = replicate.run(
+                        "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
+                        input={"prompt": img_prompt}
+                    )
+                    st.success("✅ Image generated successfully!")
+                    st.image(output[0], caption="Generated Image")
+                except Exception as e:
+                    st.error(f"Error: {e}")
+        else:
+            st.warning("Please enter a description to generate an image!")
+
+# ==========================================
+# TAB 3: VIDEO GENERATOR (Replicate)
+# ==========================================
+with tab3:
     st.title("🎥 AI Video Generator")
     st.write("Generate short cinematic clips and reels just by typing a prompt!")
 
@@ -69,6 +98,7 @@ with tab2:
         if video_prompt:
             with st.spinner("⏳ Generating video... This may take 1-2 minutes..."):
                 try:
+                    # Using Zeroscope model for video
                     output = replicate.run(
                         "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
                         input={"prompt": video_prompt}
