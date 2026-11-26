@@ -71,18 +71,16 @@ if user_email:
     st.sidebar.metric("💰 Your Credits", credits)
     
     # ✅ ഇത് ഇവിടെ പേസ്റ്റ് ചെയ്യുക
-        if credits <= 0:
+              if credits <= 0:
             st.sidebar.error("❌ No credits left!")
             st.sidebar.markdown("---")
             st.sidebar.subheader("💳 Recharge Credits")
             st.sidebar.write("**Price:** ₹100 = 10 Credits")
             
-            # UPI QR കോഡ് കാണിക്കുന്നു
             st.sidebar.markdown("#### 📱 Scan & Pay")
             qr_buffer = generate_upi_qr()
             st.sidebar.image(qr_buffer, width=200)
             
-            # UPI ID ടെക്സ്റ്റായി കാണിക്കുന്നു
             st.sidebar.code("shoukathali.kalathingalpalliyali@federal", language=None)
             
             st.sidebar.markdown("---")
