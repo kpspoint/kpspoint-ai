@@ -1,4 +1,18 @@
 import streamlit as st
+
+# --- ആപ്പിന്റെ ഐക്കൺ സെറ്റ് ചെയ്യുന്നു ---
+st.set_page_config(
+    page_title="kpspoint AI Assistant", 
+    page_icon="kpspoint.png",  # ഇവിടെ നിങ്ങൾ അപ്‌ലോഡ് ചെയ്ത ഫയലിന്റെ പേര്
+    layout="wide"
+)
+
+# ബാക്കി ഇംപോർട്ടുകൾ താഴെ തുടരാം...
+import google.generativeai as genai
+from PIL import Image
+import replicate
+import os
+import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 import replicate
