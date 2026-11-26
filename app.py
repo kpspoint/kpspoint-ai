@@ -7,7 +7,7 @@ import os
 # --- API Configuration ---
 # 1. Google Gemini Setup
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-3.8-flash) 
+model = genai.GenerativeModel("gemini-3.8-flash") 
 
 # 2. Replicate Setup (For Image & Video)
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
