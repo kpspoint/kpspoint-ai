@@ -123,7 +123,7 @@ if user_email:
                 else:
                     file_to_send = uploaded_file.read()
 
-            user_text = prompt if prompt else "ഈ ഫയൽ/ചിത്രം അനലൈസ് ചെയ്യുക"
+           user_text = prompt if prompt else "Analyze this file/image | ഈ ഫയൽ/ചിത്രം അനലൈസ് ചെയ്യുക"
             
             st.session_state.messages.append({"role": "user", "content": user_text})
             with st.chat_message("user"):
