@@ -17,6 +17,30 @@ key: str = st.secrets["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
 
 # --- Helper Functions for Credits ---
+import qrcode
+import io
+
+def generate_upi_qr():
+    """നിങ്ങളുടെ UPI ID ഉപയോഗിച്ച് QR കോഡ് ജനറേറ്റ് ചെയ്യുന്നു"""
+    upi_id = "shoukathali.kalathingalpalliyali@federal"
+    payee_name = "KPSPOINT"
+    amount = "100"
+    note = "10 Credits"
+    
+    # UPI deep link ഫോർമാറ്റ്
+    upi_link = f"upi://pay?pa={upi_id}&pn={payee_name}&am={amount}&cu=INR&tn={note}"
+    
+    # QR കോഡ് ഉണ്ടാക്കുന്നു
+    qr = qrcode.QRCode(version=1, box_size=10, border=2)
+    qr.add_data(upi_link)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    # Streamlit-ൽ കാണിക്കാൻ ബൈറ്റാക്കി മാറ്റുന്നു
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+    return buffer
 def get_user_credits(email):
     try:
         response = supabase.table("users").select("credits").eq("email", email).execute()
