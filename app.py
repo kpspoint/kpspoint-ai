@@ -18,13 +18,16 @@ supabase: Client = create_client(url, key)
 
 # --- Helper Functions for Credits ---
 def get_user_credits(email):
-    response = supabase.table("users").select("credits").eq("email", email).execute()
-    if response.data:
-        return response.data[0]['credits']
-    else:
-        # New user gets 10 free credits
-        supabase.table("users").insert({"email": email, "credits": 10}).execute()
-        return 10
+    try:
+        response = supabase.table("users").select("credits").eq("email", email).execute()
+        if response.data:
+            return response.data[0]['credits']
+        else:
+            supabase.table("users").insert({"email": email, "credits": 10}).execute()
+            return 10
+    except Exception as e:
+        st.error(f"Database Error: {e}")
+        return 0
 
 def deduct_credits(email, amount):
     current_credits = get_user_credits(email)
