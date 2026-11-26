@@ -6,7 +6,6 @@ st.set_page_config(
     page_icon="kpspoint.png",  # ഇവിടെ നിങ്ങൾ അപ്‌ലോഡ് ചെയ്ത ഫയലിന്റെ പേര്
     layout="wide"
 )
-
 # ബാക്കി ഇംപോർട്ടുകൾ താഴെ തുടരാം...
 import google.generativeai as genai
 from PIL import Image
