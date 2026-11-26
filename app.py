@@ -104,7 +104,7 @@ if user_email:
     # TAB 1: CHAT
     with tab1:
         st.title("🤖 kpspoint AI Assistant")
-        st.write("ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ! (സൗജന്യം)")
+       st.write("ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ! (സൗജന്യം) | Ask questions, upload images & analyze for FREE!")
 
         if "messages" not in st.session_state:
             st.session_state.messages = []
