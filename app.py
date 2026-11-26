@@ -71,7 +71,7 @@ if user_email:
     st.sidebar.metric("💰 Your Credits", credits)
     
     # ✅ ഇത് ഇവിടെ പേസ്റ്റ് ചെയ്യുക
-              if credits <= 0:
+            if credits <= 0:
             st.sidebar.error("❌ No credits left!")
             st.sidebar.markdown("---")
             st.sidebar.subheader("💳 Recharge Credits")
