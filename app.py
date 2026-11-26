@@ -62,10 +62,7 @@ if user_email:
     credits = get_user_credits(user_email)
     st.sidebar.success(f"Logged in as: {user_email}")
     st.sidebar.metric("💰 Your Credits", credits)
-        st.sidebar.success(f"Logged in as: {user_email}")
-    st.sidebar.metric("💰 Your Credits", credits)
-    
-    # ✅ ഇത് ചേർക്കുക - എപ്പോഴും കാണിക്കുന്ന Recharge ബട്ടൺ
+     # ✅ ഇത് ചേർക്കുക - എപ്പോഴും കാണിക്കുന്ന Recharge ബട്ടൺ
     st.sidebar.markdown("---")
     if st.sidebar.button("💳 Recharge Credits"):
         st.sidebar.subheader("📱 Scan & Pay")
