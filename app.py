@@ -85,5 +85,4 @@ if st.button("Generate Video 🎬"):
                 st.error(f"Error: {e}")
     else:
         st.warning("Please enter a description to generate a video!")
-    else:
-        st.warning("ദയവായി ഒരു വിവരണം നൽകുക!")
+  
