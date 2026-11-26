@@ -113,8 +113,7 @@ if user_email:
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
 
-        uploaded_file = st.file_uploader("ഒരു ചിത്രമോ ഫയലോ അപ്‌ലോഡ് ചെയ്യുക (ഓപ്ഷണൽ)", type=["jpg", "jpeg", "png", "pdf", "txt"])
-        prompt = st.chat_input("നിങ്ങളുടെ ചോദ്യം ഇവിടെ ടൈപ്പ് ചെയ്യുക...")
+      uploaded_file = st.file_uploader("Upload an image or file (Optional) | ഒരു ചിത്രമോ ഫയലോ അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png", "pdf", "txt"])
 
         if prompt or uploaded_file:
             file_to_send = None
