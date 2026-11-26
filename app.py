@@ -7,7 +7,7 @@ from supabase import create_client, Client
 
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-1.5-flash") 
+model = genai.GenerativeModel("gemini-3.8-flash") 
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
