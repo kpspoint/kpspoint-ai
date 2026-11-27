@@ -31,7 +31,7 @@ st.markdown("""
     /* ഇൻപുട്ട് ബോക്സുകൾ */
     .stTextInput>div>div>input, .stTextArea>div>div>textarea {
         background-color: #ffffff !important;
-        color: #000000 !important;
+        color: #0rrrrt !important;
     }
 
     /* ബട്ടണുകൾ */
