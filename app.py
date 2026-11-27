@@ -201,10 +201,9 @@ if user_email:
 img_prompt = st.text_input(
     "Enter image description (in English):",
     placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution",
-    key="image_prompt"
- )
+    key="image_prompt" )
 if st.button("Generate Image 🖼️"):
-if img_prompt:
+ if img_prompt:
 with st.spinner("⏳ Generating image..."):
 try:
 output = replicate.run(
