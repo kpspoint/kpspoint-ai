@@ -53,31 +53,12 @@ st.markdown("""
         transform: translateY(-2px);
         box-shadow: 0 6px 8px rgba(0,0,0,0.15);
     }
-
-    /* Tabs Styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        background-color: #ffffff;
-        border-radius: 8px 8px 0px 0px;
-        padding: 10px 20px;
-        font-weight: 600;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%) !important;
-        color: white !important;
-    }
-    .stTabs [aria-selected="true"] p {
-        color: white !important;
-    }
     </style>
 """, unsafe_allow_html=True)
 
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-3.5-flash-lite") # Model updated for stability
+model = genai.GenerativeModel("gemini-3.5-flash-lite")
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
@@ -130,7 +111,7 @@ if user_email:
     st.sidebar.success(f"Logged in: {user_email}")
     st.sidebar.metric("💰 Your Credits", credits)
 
-    # Recharge Button
+    # Recharge Button in Sidebar
     st.sidebar.markdown("---")
     if st.sidebar.button("💳 Recharge Credits"):
         st.sidebar.subheader("📱 Scan & Pay")
@@ -168,19 +149,18 @@ if user_email:
         st.sidebar.write("We'll add your credits within 5 minutes! ⚡")
         st.stop()
 
-    # --- Main App Tabs ---
-    tab1, tab2, tab3 = st.tabs(["💬 AI Chat", "🎨 Image Generator", "🎥 Video Generator"])
+    # --- Sidebar Menu (Replaces Tabs) ---
+    st.sidebar.markdown("---")
+    app_mode = st.sidebar.selectbox("Choose AI Tool", ["💬 AI Chat", "🎨 Image Generator", "🎥 Video Generator"])
 
-    # TAB 1: CHAT
-    with tab1:    
+    # --- 1. AI CHAT SECTION ---
+    if app_mode == "💬 AI Chat":
         st.title("🤖 kpspoint AI Assistant")
         st.markdown("💬 **ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ!** | *Ask questions, upload images & chat with full memory!*")
 
-        # Initialize chat session in session state
         if "chat_session" not in st.session_state:
             st.session_state.chat_session = model.start_chat(history=[])
 
-        # Display previous chat messages from history
         for message in st.session_state.chat_session.history:
             role = "user" if message.role == "user" else "assistant"
             with st.chat_message(role):
@@ -188,7 +168,6 @@ if user_email:
                     if part.text:
                         st.markdown(part.text)
 
-        # File uploader for images & Chat input
         uploaded_file = st.file_uploader("Upload an image (Optional) | ഒരു ചിത്രം അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png"], key="chat_img_uploader")
         prompt = st.chat_input("Type your question here... | നിങ്ങളുടെ ചോദ്യം ഇവിടെ ടൈപ്പ് ചെയ്യുക...")
 
@@ -212,8 +191,8 @@ if user_email:
                     except Exception as e:
                         st.error(f"Error: {e}")
 
-    # TAB 2: IMAGE GENERATOR
-    with tab2:
+    # --- 2. IMAGE GENERATOR SECTION ---
+    elif app_mode == "🎨 Image Generator":
         st.title("🎨 AI Image Generator")
         st.markdown("✨ *Generate stunning images just by typing a prompt! (Costs 1 Credit)*")
 
@@ -236,8 +215,8 @@ if user_email:
             else:
                 st.warning("Please enter a description!")
 
-    # TAB 3: VIDEO GENERATOR
-    with tab3:
+    # --- 3. VIDEO GENERATOR SECTION ---
+    elif app_mode == "🎥 Video Generator":
         st.title("🎥 AI Video Generator")
         st.markdown("🎬 *Generate short cinematic clips and reels! (Costs 5 Credits)*")
 
