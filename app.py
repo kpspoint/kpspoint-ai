@@ -163,6 +163,39 @@ if user_email:
                         st.error(f"Error: {e}")
 
     # TAB 2: IMAGE GENERATOR
+    # TAB 2: IMAGE GENERATOR
+    with tab2:
+        st.title("🎨 AI Image Generator")
+        st.write("Generate stunning images just by typing a prompt! (Costs 1 Credit) | ഒരു പ്രോംപ്റ്റ് നൽകി മനോഹരമായ ചിത്രങ്ങൾ ഉണ്ടാക്കുക! (1 ക്രെഡിറ്റ്)")
+
+        img_prompt = st.text_input(
+            "Enter image description (in English):",
+            placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution",
+        )
+
+        if st.button("Generate Image 🖼️"):
+            if not img_prompt.strip():
+                st.warning("Please enter a description!")
+            elif credits < 1:
+                st.error("❌ You need at least 1 credit to generate an image.")
+            else:
+                with st.spinner("⏳ Generating image..."):
+                    try:
+                        output = replicate.run(
+                            "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
+                            input={"prompt": img_prompt.strip()},
+                        )
+                        st.session_state["generated_img"] = get_image_bytes(output)
+                        deduct_credits(user_email, 1)
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Error: {repr(e)}")
+
+        if st.session_state.get("generated_img"):
+            st.success("✅ Image generated successfully!")
+            st.image(st.session_state["generated_img"], caption="Generated Image")
+
+    # TAB 3: VIDEO GENERATOR
     with tab2:
         st.title("🎨 AI Image Generator")
         st.write("Generate stunning images just by typing a prompt! (Costs 1 Credit) | ഒരു പ്രോംപ്റ്റ് നൽകി മനോഹരമായ ചിത്രങ്ങൾ ഉണ്ടാക്കുക! (1 ക്രെഡിറ്റ്)")
