@@ -9,7 +9,7 @@ import io
 
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-2.5-flash") 
+model = genai.GenerativeModel("gemini-3.8-flash")
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
@@ -62,7 +62,8 @@ if user_email:
     credits = get_user_credits(user_email)
     st.sidebar.success(f"Logged in as: {user_email}")
     st.sidebar.metric("💰 Your Credits", credits)
-     # ✅ ഇത് ചേർക്കുക - എപ്പോഴും കാണിക്കുന്ന Recharge ബട്ടൺ
+
+    # ✅ Recharge Button (Always visible)
     st.sidebar.markdown("---")
     if st.sidebar.button("💳 Recharge Credits"):
         st.sidebar.subheader("📱 Scan & Pay")
@@ -76,22 +77,24 @@ if user_email:
         st.sidebar.write("📸 **After payment**, send screenshot to:")
         st.sidebar.write("**WhatsApp:** +91 88487 03120")
         st.sidebar.write("We'll add your credits within 5 minutes! ⚡")
+
+    # ✅ No credits check
     if credits <= 0:
         st.sidebar.error("❌ No credits left!")
         st.sidebar.markdown("---")
         st.sidebar.subheader("💳 Recharge Credits")
         st.sidebar.write("**Price:** ₹100 = 10 Credits")
-        
+
         st.sidebar.markdown("#### 📱 Scan & Pay")
         qr_buffer = generate_upi_qr()
         st.sidebar.image(qr_buffer, width=200)
-        
+
         st.sidebar.code("shoukathali.kalathingalpalliyali@federal", language=None)
-        
+
         st.sidebar.markdown("---")
         st.sidebar.markdown("**🌍 International Users:**")
         st.sidebar.link_button("Pay via PayPal 💵", "https://paypal.me/kpyard")
-        
+
         st.sidebar.markdown("---")
         st.sidebar.write("📸 **After payment**, send screenshot to:")
         st.sidebar.write("**WhatsApp:** +91 88487 03120")
@@ -100,11 +103,11 @@ if user_email:
 
     # Tabs
     tab1, tab2, tab3 = st.tabs(["💬 AI Chat", "🎨 Image Generator", "🎥 Video Generator"])
-    
+
     # TAB 1: CHAT
     with tab1:
         st.title("🤖 kpspoint AI Assistant")
-       st.write("ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ! (സൗജന്യം) | Ask questions, upload images & analyze for FREE!")
+        st.write("ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ! (സൗജന്യം) | Ask questions, upload images & analyze for FREE!")
 
         if "messages" not in st.session_state:
             st.session_state.messages = []
@@ -113,7 +116,10 @@ if user_email:
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
 
-      uploaded_file = st.file_uploader("Upload an image or file (Optional) | ഒരു ചിത്രമോ ഫയലോ അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png", "pdf", "txt"])
+        uploaded_file = st.file_uploader("Upload an image or file (Optional) | ഒരു ചിത്രമോ ഫയലോ അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png", "pdf", "txt"])
+
+        # ✅ ഇത് വളരെ പ്രധാനം - ചാറ്റ് ഇൻപുട്ട് ബോക്സ്!
+        prompt = st.chat_input("Type your question here... | നിങ്ങളുടെ ചോദ്യം ഇവിടെ ടൈപ്പ് ചെയ്യുക...")
 
         if prompt or uploaded_file:
             file_to_send = None
@@ -123,8 +129,8 @@ if user_email:
                 else:
                     file_to_send = uploaded_file.read()
 
-           user_text = prompt if prompt else "Analyze this file/image | ഈ ഫയൽ/ചിത്രം അനലൈസ് ചെയ്യുക"
-            
+            user_text = prompt if prompt else "Analyze this file/image | ഈ ഫയൽ/ചിത്രം അനലൈസ് ചെയ്യുക"
+
             st.session_state.messages.append({"role": "user", "content": user_text})
             with st.chat_message("user"):
                 st.markdown(user_text)
@@ -132,7 +138,7 @@ if user_email:
                     st.image(file_to_send, caption="Uploaded Image")
 
             with st.chat_message("assistant"):
-                with st.spinner("⏳ AI ചിന്തിക്കുന്നു..."):
+                with st.spinner("⏳ AI ചിന്തിക്കുന്നു... | AI is thinking..."):
                     try:
                         if file_to_send:
                             response = model.generate_content([file_to_send, user_text])
@@ -141,12 +147,12 @@ if user_email:
                         st.markdown(response.text)
                         st.session_state.messages.append({"role": "assistant", "content": response.text})
                     except Exception as e:
-                        st.error(f"എറർ: {e}")
+                        st.error(f"Error: {e}")
 
     # TAB 2: IMAGE GENERATOR
     with tab2:
         st.title("🎨 AI Image Generator")
-        st.write("Generate stunning images just by typing a prompt! (Costs 1 Credit)")
+        st.write("Generate stunning images just by typing a prompt! (Costs 1 Credit) | ഒരു പ്രോംപ്റ്റ് നൽകി മനോഹരമായ ചിത്രങ്ങൾ ഉണ്ടാക്കുക! (1 ക്രെഡിറ്റ്)")
 
         img_prompt = st.text_input("Enter image description (in English):", placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution")
 
@@ -170,7 +176,7 @@ if user_email:
     # TAB 3: VIDEO GENERATOR
     with tab3:
         st.title("🎥 AI Video Generator")
-        st.write("Generate short cinematic clips and reels! (Costs 5 Credits)")
+        st.write("Generate short cinematic clips and reels! (Costs 5 Credits) | സിനിമാറ്റിക് വീഡിയോകൾ ഉണ്ടാക്കുക! (5 ക്രെഡിറ്റ്)")
 
         video_prompt = st.text_input("Enter video description (in English):", placeholder="e.g., A futuristic car driving through a neon city at night, cinematic lighting, 4k")
 
