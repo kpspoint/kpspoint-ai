@@ -7,9 +7,66 @@ from supabase import create_client, Client
 import qrcode
 import io
 
+# --- Page Configuration ---
+st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
+
+# --- Custom CSS for Beautiful UI ---
+st.markdown("""
+    <style>
+    /* Main Background & Font */
+    .stApp {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Sidebar Styling */
+    section[data-testid="stSidebar"] {
+        background-color: #1e1e2f;
+        color: white;
+    }
+    section[data-testid="stSidebar"] .stTextInput label, 
+    section[data-testid="stSidebar"] p, 
+    section[data-testid="stSidebar"] span {
+        color: #ffffff !important;
+    }
+
+    /* Cards/Containers */
+    div.stButton > button {
+        background: linear-gradient(90deg, #ff8008 0%, #ffc837 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        font-weight: bold;
+        transition: 0.3s;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    div.stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+    }
+
+    /* Tabs Styling */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 10px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        background-color: #ffffff;
+        border-radius: 8px 8px 0px 0px;
+        padding: 10px 20px;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%) !important;
+        color: white !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-3.5-flash-lite") 
+model = genai.GenerativeModel("gemini-1.5-flash") 
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
@@ -52,15 +109,14 @@ def deduct_credits(email, amount):
     supabase.table("users").update({"credits": new_credits}).eq("email", email).execute()
     return new_credits
 
-# --- Main App UI ---
-st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
-
-st.sidebar.title("🔐 Login / Sign Up")
+# --- Main App Sidebar UI ---
+st.sidebar.title("🚀 kpspoint AI")
+st.sidebar.markdown("### 🔐 Login / Sign Up")
 user_email = st.sidebar.text_input("Enter your email to start:")
 
 if user_email:
     credits = get_user_credits(user_email)
-    st.sidebar.success(f"Logged in as: {user_email}")
+    st.sidebar.success(f"Logged in: {user_email}")
     st.sidebar.metric("💰 Your Credits", credits)
 
     # Recharge Button
@@ -68,7 +124,7 @@ if user_email:
     if st.sidebar.button("💳 Recharge Credits"):
         st.sidebar.subheader("📱 Scan & Pay")
         qr_buffer = generate_upi_qr()
-        st.sidebar.image(qr_buffer, width=200)
+        st.sidebar.image(qr_buffer, width=180)
         st.sidebar.code("shoukathali.kalathingalpalliyali@federal", language=None)
         st.sidebar.markdown("---")
         st.sidebar.markdown("**🌍 International Users:**")
@@ -87,7 +143,7 @@ if user_email:
 
         st.sidebar.markdown("#### 📱 Scan & Pay")
         qr_buffer = generate_upi_qr()
-        st.sidebar.image(qr_buffer, width=200)
+        st.sidebar.image(qr_buffer, width=180)
 
         st.sidebar.code("shoukathali.kalathingalpalliyali@federal", language=None)
 
@@ -101,72 +157,68 @@ if user_email:
         st.sidebar.write("We'll add your credits within 5 minutes! ⚡")
         st.stop()
 
-    # Tabs
+    # --- Main App Tabs ---
     tab1, tab2, tab3 = st.tabs(["💬 AI Chat", "🎨 Image Generator", "🎥 Video Generator"])
 
-    # TAB 1: CHAT
+    # TAB 1: CHAT (Memory Fixed via Gemini chat session)
     with tab1:
         st.title("🤖 kpspoint AI Assistant")
-        st.write("ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ! (സൗജന്യം) | Ask questions, upload images & analyze for FREE!")
+        st.markdown("💬 **ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ!** | *Ask questions, upload images & chat with full memory!*")
 
-        # Chat History Memory
-        if "messages" not in st.session_state:
-            st.session_state.messages = []
+        # Initialize Gemini Chat Session in Streamlit Session State
+        if "chat_session" not in st.session_state:
+            st.session_state.chat_session = model.start_chat(history=[])
 
-        for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
+        # Display Chat History from Gemini's history
+        for message in st.session_state.chat_session.history:
+            role = "user" if message.role == "user" else "assistant"
+            with st.chat_message(role):
+                for part in message.parts:
+                    if part.text:
+                        st.markdown(part.text)
 
-        uploaded_file = st.file_uploader("Upload an image or file (Optional) | ഒരു ചിത്രമോ ഫയലോ അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png", "pdf", "txt"])
+        uploaded_file = st.file_uploader("Upload an image (Optional) | ഒരു ചിത്രം അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png"])
 
         # Chat Input
         prompt = st.chat_input("Type your question here... | നിങ്ങളുടെ ചോദ്യം ഇവിടെ ടൈപ്പ് ചെയ്യുക...")
 
-        if prompt or uploaded_file:
-            file_to_send = None
-            if uploaded_file:
-                if uploaded_file.type.startswith("image/"):
-                    file_to_send = Image.open(uploaded_file)
-                else:
-                    file_to_send = uploaded_file.read()
-
-            user_text = prompt if prompt else "Analyze this file/image | ഈ ഫയൽ/ചിത്രം അനലൈസ് ചെയ്യുക"
-
-            st.session_state.messages.append({"role": "user", "content": user_text})
+        if prompt:
             with st.chat_message("user"):
-                st.markdown(user_text)
-                if file_to_send and uploaded_file.type.startswith("image/"):
-                    st.image(file_to_send, caption="Uploaded Image")
+                st.markdown(prompt)
+                if uploaded_file:
+                    img = Image.open(uploaded_file)
+                    st.image(img, width=200, caption="Uploaded Image")
 
             with st.chat_message("assistant"):
                 with st.spinner("⏳ AI ചിന്തിക്കുന്നു... | AI is thinking..."):
                     try:
-                        if file_to_send:
-                            response = model.generate_content([file_to_send, user_text])
+                        if uploaded_file:
+                            img = Image.open(uploaded_file)
+                            response = st.session_state.chat_session.send_message([img, prompt])
                         else:
-                            response = model.generate_content(user_text)
+                            response = st.session_state.chat_session.send_message(prompt)
+
                         st.markdown(response.text)
-                        st.session_state.messages.append({"role": "assistant", "content": response.text})
                     except Exception as e:
                         st.error(f"Error: {e}")
 
     # TAB 2: IMAGE GENERATOR
     with tab2:
         st.title("🎨 AI Image Generator")
-        st.write("Generate stunning images just by typing a prompt! (Costs 1 Credit) | ഒരു പ്രോംപ്റ്റ് നൽകി മനോഹരമായ ചിത്രങ്ങൾ ഉണ്ടാക്കുക! (1 ക്രെഡിറ്റ്)")
+        st.markdown("✨ *Generate stunning images just by typing a prompt! (Costs 1 Credit)*")
 
         img_prompt = st.text_input("Enter image description (in English):", placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution")
 
         if st.button("Generate Image 🖼️"):
             if img_prompt:
-                with st.spinner("⏳ Generating image..."):
+                with st.spinner("⏳ Generating image... Please wait..."):
                     try:
                         output = replicate.run(
                             "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
                             input={"prompt": img_prompt}
                         )
                         st.success("✅ Image generated successfully!")
-                        st.image(output[0], caption="Generated Image")
+                        st.image(output[0], caption="Generated Image", use_column_width=True)
                         deduct_credits(user_email, 1)
                         st.rerun()
                     except Exception as e:
@@ -177,7 +229,7 @@ if user_email:
     # TAB 3: VIDEO GENERATOR
     with tab3:
         st.title("🎥 AI Video Generator")
-        st.write("Generate short cinematic clips and reels! (Costs 5 Credits) | സിനിമാറ്റിക് വീഡിയോകൾ ഉണ്ടാക്കുക! (5 ക്രെഡിറ്റ്)")
+        st.markdown("🎬 *Generate short cinematic clips and reels! (Costs 5 Credits)*")
 
         video_prompt = st.text_input("Enter video description (in English):", placeholder="e.g., A futuristic car driving through a neon city at night, cinematic lighting, 4k")
 
@@ -199,4 +251,7 @@ if user_email:
                 st.warning("Please enter a description!")
 
 else:
-    st.warning("⚠️ Please enter your email in the left sidebar to start using the app!")
+    # Landing page style when logged out
+    st.markdown("<h1 style='text-align: center; color: #4e54c8;'>🚀 Welcome to kpspoint AI Studio</h1>", unsafe_allow_html=True)
+    st.markdown("<h4 style='text-align: center; color: #555;'>Your All-in-One AI Platform for Chatting, Images, and Videos.</h4>", unsafe_allow_html=True)
+    st.info("👈 **Please enter your email in the left sidebar to start using the app!**")
