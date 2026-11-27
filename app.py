@@ -215,9 +215,9 @@ with tab3:
        st.title("🎬 Image to Video Generator")
        st.write("Convert a generated or uploaded image into a short video! (Costs 5 Credits)")
  
-       has_prev_img = bool(st.session_state.get("generated_img"))
-           use_generated = st.checkbox(
-        "Use previously generated image",
+     has_prev_img = bool(st.session_state.get("generated_img"))
+     use_generated = st.checkbox(
+     "Use previously generated image",
                  value=has_prev_img,
         key="use_gen_img_for_video",
     )
