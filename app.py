@@ -227,16 +227,15 @@ if user_email:
             if img_prompt:
                 with st.spinner("⏳ Generating image... Please wait..."):
                     try:
-                        output = replicate.run(
+                                               output = replicate.run(
                             "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
                             input={"prompt": img_prompt}
                         )
                         st.success("✅ Image generated successfully!")
-                        st.image(output[0], caption="Generated Image", use_column_width=True)
+                        # ഔട്ട്പുട്ട് ഒരു FileOutput ഒബ്ജക്റ്റ് ആണെങ്കിൽ അത് സ്ട്രിംഗ് ആക്കി മാറ്റാൻ str() ഉപയോഗിക്കാം
+                        st.image(str(output[0]), caption="Generated Image", use_container_width=True)
                         deduct_credits(user_email, 1)
                         st.rerun()
-                    except Exception as e:
-                        st.error(f"Error: {e}")
             else:
                 st.warning("Please enter a description!")
 
@@ -251,16 +250,15 @@ if user_email:
             if video_prompt:
                 with st.spinner("⏳ Generating video... This may take 1-2 minutes..."):
                     try:
-                        output = replicate.run(
-                            "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
-                            input={"prompt": video_prompt}
+                                                output = replicate.run(
+                            "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
+                            input={"prompt": img_prompt}
                         )
-                        st.success("✅ Video generated successfully!")
-                        st.video(output[0])
-                        deduct_credits(user_email, 5)
+                        st.success("✅ Image generated successfully!")
+                        # ഔട്ട്പുട്ട് ഒരു FileOutput ഒബ്ജക്റ്റ് ആണെങ്കിൽ അത് സ്ട്രിംഗ് ആക്കി മാറ്റാൻ str() ഉപയോഗിക്കാം
+                        st.image(str(output[0]), caption="Generated Image", use_container_width=True)
+                        deduct_credits(user_email, 1)
                         st.rerun()
-                    except Exception as e:
-                        st.error(f"Error: {e}")
             else:
                 st.warning("Please enter a description!")
 
