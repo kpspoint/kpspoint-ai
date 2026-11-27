@@ -1,3 +1,30 @@
+    # --- 2. IMAGE GENERATOR SECTION ---
+    elif app_mode == "🎨 Image Generator":
+        st.title("🎨 AI Image Generator")
+        st.markdown("✨ *Generate stunning images just by typing a prompt! (Costs 1 Credit)*")
+
+        img_prompt = st.text_input("Enter image description (in English):", placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution", key="img_input")
+
+        if st.button("Generate Image 🖼️"):
+            if img_prompt:
+                with st.spinner("⏳ Generating image... Please wait..."):
+                    try:
+                        output = replicate.run(
+                            "stability-ai/sdxl:39ed6158223de3b47f75d654f590ff97394bb55c1e309fbdf58f2d56a310d540",
+                            input={"prompt": img_prompt}
+                        )
+                        st.success("✅ Image generated successfully!")
+                        # Output handling
+                        if isinstance(output, list):
+                            st.image(output[0], caption="Generated Image")
+                        else:
+                            st.image(output, caption="Generated Image")
+
+                        deduct_credits(user_email, 1)
+                    except Exception as e:
+                        st.error(f"Error: {e}")
+            else:
+                st.warning("Please enter a description!")
 import streamlit as st
 import google.generativeai as genai
 from PIL import Image
