@@ -14,25 +14,48 @@ st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wi
 st.markdown(
     """
 <style>
-    /* മൊത്തത്തിലുള്ള ആപ്പ് ബാക്ക്ഗ്രൗണ്ട് */
+    /* 1. മൊത്തത്തിലുള്ള ആപ്പ് ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആക്കുന്നു */
     .stApp {
         background-color: #0b0f19 !important;
     }
 
-    /* എല്ലാ പ്രധാന ടെക്സ്റ്റുകളും വെളുപ്പാക്കുന്നു */
+    /* 2. പ്രധാന ഹെഡിംഗുകളും ടെക്സ്റ്റുകളും വെളുപ്പാക്കുന്നു */
     h1, h2, h3, h4, h5, h6, span, label, a {
         color: #ffffff !important;
     }
 
-    /* ഫയൽ അപ്‌ലോഡർ ബോക്സ് (വെള്ള നിറം വരുന്നത് തടയാൻ) */
+    /* 3. സൈഡ്ബാറിന്റെ ബാക്ക്ഗ്രൗണ്ട് പൂർണ്ണമായും കറുപ്പ്/ഡാർക്ക് ഗ്രേ ആക്കുന്നു */
+    [data-testid="stSidebar"] {
+        background-color: #111827 !important;
+    }
+
+    /* 4. സൈഡ്ബാറിനുള്ളിലെ എല്ലാ ടെക്സ്റ്റുകളും ലേബലുകളും വെളുപ്പാക്കുന്നു */
+    [data-testid="stSidebar"] p, 
+    [data-testid="stSidebar"] span, 
+    [data-testid="stSidebar"] label, 
+    [data-testid="stSidebar"] div, 
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h2, 
+    [data-testid="stSidebar"] h3 {
+        color: #ffffff !important;
+    }
+
+    /* 5. സൈഡ്ബാറിലെ ഇൻപുട്ട് ബോക്സുകളും ഡ്രോപ്പ്ഡൗണുകളും ഡാർക്ക് ആക്കുന്നു */
+    [data-testid="stSidebar"] input, 
+    [data-testid="stSidebar"] select, 
+    [data-testid="stSidebar"] textarea {
+        background-color: #1f2937 !important;
+        color: #ffffff !important;
+        border: 1px solid #374151 !important;
+    }
+
+    /* 6. ഫയൽ അപ്‌ലോഡർ ബോക്സ് കറുപ്പാക്കുന്നു */
     [data-testid="stFileUploader"] {
         background-color: #1f2937 !important;
         border: 2px dashed #4b5563 !important;
         border-radius: 10px;
         padding: 10px;
     }
-
-    /* അപ്‌ലോഡർ ബോക്സിനുള്ളിലെ ടെക്സ്റ്റുകൾ കാണാൻ */
     [data-testid="stFileUploader"] section {
         background-color: #1f2937 !important;
     }
@@ -42,17 +65,7 @@ st.markdown(
         color: #ffffff !important;
     }
 
-    /* അപ്‌ലോഡ് ബട്ടൺ ഡാർക്ക് ആക്കുന്നു */
-    [data-testid="stFileUploader"] button {
-        background-color: #374151 !important;
-        color: #ffffff !important;
-        border: 1px solid #6b7280 !important;
-    }
-    [data-testid="stFileUploader"] button svg {
-        fill: #ffffff !important;
-    }
-
-    /* താഴെയുള്ള ചാറ്റ് ഇൻപുട്ട് ബോക്സ് */
+    /* 7. ചാറ്റ് ഇൻപുട്ട് ബോക്സ് */
     .stChatInputContainer {
         background-color: #1f2937 !important;
         border: 1px solid #374151 !important;
