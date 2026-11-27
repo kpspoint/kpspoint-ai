@@ -173,7 +173,6 @@ if user_email:
 
     # TAB 1: CHAT
     with tab1:    # TAB 1: CHAT
-    with tab1:
         st.title("🤖 kpspoint AI Assistant")
         st.markdown("💬 **ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ!** | *Ask questions, upload images & chat with full memory!*")
 
