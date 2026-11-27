@@ -1,4 +1,3 @@
-
 if user_email:
 
     if app_mode == "💬 Chat":
