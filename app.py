@@ -17,14 +17,14 @@ st.markdown(
     <div style="background-color: #0e1117; padding: 20px; border-radius: 10px; border: 1px solid #ffffff;">
         <p style="color: #ffffff; font-size: 16px;">👉 Please enter your email in the left sidebar to start using the app!</p>
     </div>
-""",
-    unsafe_allow_html=True,[theme]
+""",  
+)
+unsafe_allow_html=True,[theme]
 primaryColor = "#FF4B4B"
 backgroundColor = "#0E1117"
 secondaryBackgroundColor = "#262730"
 textColor = "#FAFAFA"
 font = "sans serif"
-)
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel("gemini-3.5-flash-lite")
