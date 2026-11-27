@@ -278,14 +278,6 @@ with tab3:
         st.success("✅ Video generated successfully!")
         st.video(st.session_state["generated_video"])
 
-    if st.button("Generate Video 🎬", key="btn_generate_video"):
-        if video_prompt:
-            with st.spinner("⏳ Generating video... This may take 1-2 minutes..."):
-                try:
-                    output = replicate.run(
-                        "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
-                        input={"prompt": video_prompt},
-                    )
                     st.success("✅ Video generated successfully!")
                     st.video(output[0])
                     deduct_credits(user_email, 5)
