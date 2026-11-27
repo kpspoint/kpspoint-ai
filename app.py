@@ -213,10 +213,8 @@ def extract_video_source(output):
         return item.read()
 
     raise TypeError(f"Unsupported video output type: {type(item)}")
-
-
-    # TAB 3: VIDEO GENERATOR
-   with tab3:
+  # TAB 3: VIDEO GENERATOR
+    with tab3:
     st.title("🎬 Image to Video Generator")
     st.write("Convert a generated or uploaded image into a short video! (Costs 5 Credits)")
 
