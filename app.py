@@ -51,6 +51,18 @@ def deduct_credits(email, amount):
     new_credits = current_credits - amount
     supabase.table("users").update({"credits": new_credits}).eq("email", email).execute()
     return new_credits
+def deduct_credits(email, amount):
+    current_credits = get_user_credits(email)
+    new_credits = current_credits - amount
+    supabase.table("users").update({"credits": new_credits}).eq("email", email).execute()
+    return new_credits
+
+
+def get_image_bytes(output):
+    item = output[0] if isinstance(output, (list, tuple)) and len(output) > 0 else output
+    if hasattr(item, "read"):
+        return item.read()
+    return item
 
 # --- Main App UI ---
 st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
