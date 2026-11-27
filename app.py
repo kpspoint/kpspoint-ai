@@ -11,7 +11,7 @@ import io
 st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
 
 # --- Custom CSS for Beautiful UI & Text Visibility Fix ---
-     background-color: #ഇവിടെ_നൽകേണ്ട_കോഡ്;
+     background-color: #000000
 File "/mount/src/kpspoint-ai/app.py", line 14
        background-color: #ഇവിടെ_നൽകേണ്ട_കോഡ്;
       ^
