@@ -221,8 +221,7 @@ if user_email:
                             response = st.session_state.chat_session.send_message(prompt)
 
                         st.markdown(response.text)
-
-                        # Save assistant response to history
+                       # Save assistant response to history
                         st.session_state.messages.append({"role": "assistant", "content": response.text})
 
                     except Exception as e:
