@@ -1,23 +1,79 @@
-# ഉപയോക്താവിന്റെ ചോദ്യം
-user_input = st.chat_input("നിങ്ങളുടെ ചോദ്യം ചോദിക്കൂ...")
+import streamlit as st
+import google.generativeai as genai
+from PIL import Image
+import replicate
+import os
+from supabase import create_client, Client
+import qrcode
+import io
 
-if user_input:
-    # ചോദ്യം മെമ്മറിയിൽ സേവ് ചെയ്യുന്നു
-    st.session_state.memory.save_context({"input": user_input}, {"output": ""})
-    
-    # ഇവിടെ നിങ്ങളുടെ AI മോഡൽ (ഉദാഹരണത്തിന് Gemini/Groq) ഉപയോഗിച്ച് ഉത്തരം കണ്ടെത്താം
-    # response = ... 
-    
-    # ഉത്തരവും മെമ്മറിയിൽ സേവ് ചെയ്യുന്നു
-    # st.session_state.memory.save_context({"input": user_input}, {"output": response})
+# --- API Configuration ---
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+model = genai.GenerativeModel("gemini-1.5-flash") 
 
-# --- 3. ബാക്കി ചാറ്റ് കോഡുകൾ ഇവിടെ എഴുതാം ---
-# ഉദാഹരണത്തിന്:
-user_input = st.text_input("നിങ്ങൾക്ക് എന്താണ് ചോദിക്കേണ്ടത്?")
+os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
-if user_input:
-    st.write(f"നിങ്ങൾ ചോദിച്ചത്: {user_input}")
-    # മെമ്മറിയിൽ ഡാറ്റ സേവ് ചെയ്യുന്ന കോഡുകൾ ഇവിടെ തുടർന്ന് എഴുതാം
+# --- Supabase Configuration ---
+url: str = st.secrets["SUPABASE_URL"]
+key: str = st.secrets["SUPABASE_KEY"]
+supabase: Client = create_client(url, key)
+
+# --- Helper Functions ---
+def generate_upi_qr():
+    upi_id = "shoukathali.kalathingalpalliyali@federal"
+    payee_name = "KPSPOINT"
+    amount = "100"
+    note = "10 Credits"
+    upi_link = f"upi://pay?pa={upi_id}&pn={payee_name}&am={amount}&cu=INR&tn={note}"
+    qr = qrcode.QRCode(version=1, box_size=10, border=2)
+    qr.add_data(upi_link)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+    return buffer
+
+def get_user_credits(email):
+    try:
+        response = supabase.table("users").select("credits").eq("email", email).execute()
+        if response.data:
+            return response.data[0]['credits']
+        else:
+            supabase.table("users").insert({"email": email, "credits": 10}).execute()
+            return 10
+    except Exception as e:
+        st.error(f"Database Error: {e}")
+        return 0
+
+def deduct_credits(email, amount):
+    current_credits = get_user_credits(email)
+    new_credits = current_credits - amount
+    supabase.table("users").update({"credits": new_credits}).eq("email", email).execute()
+    return new_credits
+
+# --- Main App UI ---
+st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
+
+st.sidebar.title("🔐 Login / Sign Up")
+user_email = st.sidebar.text_input("Enter your email to start:")
+
+if user_email:
+    credits = get_user_credits(user_email)
+    st.sidebar.success(f"Logged in as: {user_email}")
+    st.sidebar.metric("💰 Your Credits", credits)
+
+    # Recharge Button
+    st.sidebar.markdown("---")
+    if st.sidebar.button("💳 Recharge Credits"):
+        st.sidebar.subheader("📱 Scan & Pay")
+        qr_buffer = generate_upi_qr()
+        st.sidebar.image(qr_buffer, width=200)
+        st.sidebar.code("shoukathali.kalathingalpalliyali@federal", language=None)
+        st.sidebar.markdown("---")
+        st.sidebar.markdown("**🌍 International Users:**")
+        st.sidebar.link_button("Pay via PayPal 💵", "https://paypal.me/kpyard")
+        st
 import io
 import os
 import streamlit as st
