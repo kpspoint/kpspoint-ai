@@ -1,3 +1,4 @@
+import base64
 import streamlit as st
 import google.generativeai as genai
 from PIL import Image
@@ -191,10 +192,7 @@ if user_email:
 
         if st.session_state.get("generated_img"):
             st.success("✅ Image generated successfully!")
-            st.image(st.session_state["generated_img"], caption="Generated Image")
-
-    # TAB 3: VIDEO GENERATOR
-   import base64
+          st.image(st.session_state["generated_img"], caption="Generated Image")
 
 
 def image_bytes_to_data_uri(img_bytes: bytes, mime_type: str = "image/png") -> str:
@@ -217,6 +215,7 @@ def extract_video_source(output):
     raise TypeError(f"Unsupported video output type: {type(item)}")
 
 
+# TAB 3: VIDEO GENERATOR
 with tab3:
     st.title("🎬 Image to Video Generator")
     st.write("Convert a generated or uploaded image into a short video! (Costs 5 Credits)")
