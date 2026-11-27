@@ -1,11 +1,15 @@
-import streamlit as st
-from langchain.memory import ConversationBufferMemory
-# --- 1. പേജ് സെറ്റപ്പ് ---
-st.title("എൻ്റെ AI ചാറ്റ്‌ബോട്ട്")
+# ഉപയോക്താവിന്റെ ചോദ്യം
+user_input = st.chat_input("നിങ്ങളുടെ ചോദ്യം ചോദിക്കൂ...")
 
-# --- 2. ചാറ്റ് ഹിസ്റ്ററി സേവ് ചെയ്യാൻ മെമ്മറി സെറ്റ് ചെയ്യുന്നു ---
-if "memory" not in st.session_state:
-    st.session_state.memory = ConversationBufferMemory()
+if user_input:
+    # ചോദ്യം മെമ്മറിയിൽ സേവ് ചെയ്യുന്നു
+    st.session_state.memory.save_context({"input": user_input}, {"output": ""})
+    
+    # ഇവിടെ നിങ്ങളുടെ AI മോഡൽ (ഉദാഹരണത്തിന് Gemini/Groq) ഉപയോഗിച്ച് ഉത്തരം കണ്ടെത്താം
+    # response = ... 
+    
+    # ഉത്തരവും മെമ്മറിയിൽ സേവ് ചെയ്യുന്നു
+    # st.session_state.memory.save_context({"input": user_input}, {"output": response})
 
 # --- 3. ബാക്കി ചാറ്റ് കോഡുകൾ ഇവിടെ എഴുതാം ---
 # ഉദാഹരണത്തിന്:
