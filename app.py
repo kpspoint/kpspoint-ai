@@ -12,6 +12,9 @@ st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wi
 
 # --- Custom CSS for Beautiful UI & Text Visibility Fix ---
      background-color: #ഇവിടെ_നൽകേണ്ട_കോഡ്;
+File "/mount/src/kpspoint-ai/app.py", line 14
+       background-color: #ഇവിടെ_നൽകേണ്ട_കോഡ്;
+      ^
         color: #111111 !important; /* ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആണെങ്കിൽ ഇത് #ffffff ആക്കണം */
     
     }
