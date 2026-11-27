@@ -10,7 +10,6 @@ import io
 # --- Page Configuration ---
 st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
 
-# --- Custom CSS for Beautiful Dark UI ---
 # --- Custom CSS for Beautiful Dark UI (Mobile Responsive) ---
 st.markdown("""
 <style>
