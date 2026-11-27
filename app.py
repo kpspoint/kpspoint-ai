@@ -198,7 +198,7 @@ if user_email:
         st.title("🎨 AI Image Generator")
         st.write("Generate stunning images just by typing a prompt! (Costs 1 Credit) | ഒരു പ്രോംപ്റ്റ് നൽകി മനോഹരമായ ചിത്രങ്ങൾ ഉണ്ടാക്കുക! (1 ക്രെഡിറ്റ്)")
 
-      img_prompt = st.text_input(
+     img_prompt = st.text_input(
     "Enter image description (in English):",
     placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution",
     key="image_prompt_input"
