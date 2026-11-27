@@ -96,12 +96,16 @@ def generate_upi_qr():
     amount = "100"
     note = "10 Credits"
     upi_link = f"upi://pay?pa={upi_id}&pn={payee_name}&am={amount}&cu=INR&tn={note}"
+
     qr = qrcode.QRCode(version=1, box_size=10, border=2)
     qr.add_data(upi_link)
     qr.make(fit=True)
+
     img = qr.make_image(fill_color="black", back_color="white")
+
     buffer = io.BytesIO()
-    img.save(buffer, format="PNG")
+    # format="PNG" മാറ്റിവെച്ച് PIL ഇമേജ് നേരിട്ട് save ചെയ്യുന്നു
+    img.save(buffer, "PNG")
     buffer.seek(0)
     return buffer
 
