@@ -278,11 +278,4 @@ with tab3:
         st.success("✅ Video generated successfully!")
         st.video(st.session_state["generated_video"])
 
-                    st.success("✅ Video generated successfully!")
-                    st.video(output[0])
-                    deduct_credits(user_email, 5)
-                    st.rerun()
-                except Exception as e:
-                    st.error(f"Error: {e}")
-        else:
-            st.warning("Please enter a description!")
+                   
