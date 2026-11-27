@@ -230,12 +230,22 @@ if user_email:
                                                output = replicate.run(
                             "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
                             input={"prompt": img_prompt}
-                        )
-                        st.success("✅ Image generated successfully!")
-                        # ഔട്ട്പുട്ട് ഒരു FileOutput ഒബ്ജക്റ്റ് ആണെങ്കിൽ അത് സ്ട്രിംഗ് ആക്കി മാറ്റാൻ str() ഉപയോഗിക്കാം
-                        st.image(str(output[0]), caption="Generated Image", use_container_width=True)
-                        deduct_credits(user_email, 1)
-                        st.rerun()
+                      
+st.success("✅ Image generated successfully!")
+
+# Display generated image
+image_url = str(output[0])
+st.image(
+    image_url,
+    caption="Generated Image",
+    use_container_width=True
+)
+
+# Deduct credits only after successful generation
+deduct_credits(user_email, 1)
+
+st.rerun()
+
             else:
                 st.warning("Please enter a description!")
 
