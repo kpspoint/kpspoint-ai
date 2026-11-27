@@ -14,12 +14,12 @@ st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wi
 # --- Custom CSS for Beautiful Dark UI (Mobile Responsive) ---
 st.markdown("""
 <style>
-    /* ആപ്പിന്റെ ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആക്കുന്നു */
+    /* എല്ലാ ടെക്സ്റ്റുകളും വെളുപ്പ് ആക്കുന് */
     .stApp {
         background-color: #ffffff !important;
     }
 
-    /* എല്ലാ ടെക്സ്റ്റുകളും വെളുപ്പ് ആക്കുന്നു */
+    /* ആപ്പിന്റെ ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആക്കുന്നു */
     p, span, label, h1, h2, h3, h4, h5, h6, div, a, .stMarkdown {
         color: #000000 !important;
     }
