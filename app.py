@@ -11,13 +11,10 @@ import io
 st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
 
 # --- Custom CSS for Beautiful UI & Text Visibility Fix ---
-st.markdown("""
-    <style>
-    /* Main Background & Text Color */
     .stApp {
-        background-color: #ffffff;
-        color: #121212 !important;
-        font-family: 'Inter', sans-serif;
+        background-color: #ഇവിടെ_നൽകേണ്ട_കോഡ്;
+        color: #111111 !important; /* ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആണെങ്കിൽ ഇത് #ffffff ആക്കണം */
+    
     }
 
     /* Make all standard text dark for readability */
