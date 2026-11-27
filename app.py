@@ -19,7 +19,7 @@ if st.button("Generate Image 🖼️"):
             except Exception as e:
                 st.error(f"Error: {e}")
     else:
-        st.warning("Please enter a description!")     itheel line 1 error kaanaanu
+        st.warning("Please enter a description!") 
 import streamlit as st
 import google.generativeai as genai
 from PIL import Image
