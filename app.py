@@ -12,7 +12,7 @@ st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wi
 
 # --- Custom CSS for Beautiful Dark UI ---
 # ശരിയായ രീതി (ടെക്സ്റ്റ് കറുപ്പ് നിറമാക്കുകയോ അല്ലെങ്കിൽ ബോക്സ് കറുപ്പാക്കുകയോ ചെയ്യുക)
-st.markdown(
+st.markdown
    # ശരിയായ രീതി (ടെക്സ്റ്റ് കറുപ്പ് നിറമാക്കുകയോ അല്ലെങ്കിൽ ബോക്സ് കറുപ്പാക്കുകയോ ചെയ്യുക)
     unsafe_allow_html=True,
 # --- API Configuration ---
