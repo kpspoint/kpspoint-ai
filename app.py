@@ -190,8 +190,8 @@ if user_email:
                     except Exception as e:
                         st.error(f"Error: {repr(e)}")
 
-          if st.session_state.get("generated_img"):
-             st.success("✅ Image generated successfully!")
+                    if st.session_state.get("generated_img"):
+                       st.success("✅ Image generated successfully!")
              st.image(st.session_state["generated_img"], caption="Generated Image")
 
 
