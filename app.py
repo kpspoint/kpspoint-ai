@@ -1,4 +1,12 @@
 import streamlit as st
+
+st.set_page_config(
+    page_title="KPS Point AI",
+    page_icon="🤖",
+    layout="wide",  # Screen full width aakkaan
+    initial_sidebar_state="expanded",
+)
+import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 import replicate
