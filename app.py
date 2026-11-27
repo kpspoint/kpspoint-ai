@@ -1,4 +1,3 @@
-import base64
 import streamlit as st
 import google.generativeai as genai
 from PIL import Image
@@ -190,84 +189,63 @@ if user_email:
                     except Exception as e:
                         st.error(f"Error: {repr(e)}")
 
-                    if   st.session_state.get("generated_img"):
-                         st.success("✅ Image generated successfully!")
-                         st.image(st.session_state["generated_img"], caption="Generated Image")
-def image_bytes_to_data_uri(img_bytes: bytes, mime_type: str = "image/png") -> str:
-    encoded = base64.b64encode(img_bytes).decode("utf-8")
-    return f"data:{mime_type};base64,{encoded}"
+        if st.session_state.get("generated_img"):
+            st.success("✅ Image generated successfully!")
+            st.image(st.session_state["generated_img"], caption="Generated Image")
 
+    # TAB 3: VIDEO GENERATOR
+    with tab2:
+        st.title("🎨 AI Image Generator")
+        st.write("Generate stunning images just by typing a prompt! (Costs 1 Credit) | ഒരു പ്രോംപ്റ്റ് നൽകി മനോഹരമായ ചിത്രങ്ങൾ ഉണ്ടാക്കുക! (1 ക്രെഡിറ്റ്)")
 
-def extract_video_source(output):
-    item = output[0] if isinstance(output, (list, tuple)) else output
+img_prompt = st.text_input(
+    "Enter image description (in English):",
+    placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution",
+    key="image_prompt",
+)
 
-    if isinstance(item, str):
-        return item
+if st.button("Generate Image 🖼️", key="btn_generate_image"):
+    if img_prompt:
+        with st.spinner("⏳ Generating image..."):
+            try:
+                output = replicate.run(
+                    "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
+                    input={"prompt": img_prompt},
+                )
+                st.success("✅ Image generated successfully!")
+                st.image(output[0], caption="Generated Image")
+                deduct_credits(user_email, 1)
+                st.rerun()
+            except Exception as e:
+                st.error(f"Error: {e}")
+    else:
+        st.warning("Please enter a description!")
 
-    if hasattr(item, "url") and item.url:
-        return str(item.url)    
+# TAB 3: VIDEO GENERATOR (Generate Image ബട്ടണിന് പുറത്ത്)
+with tab3:
+    st.title("🎥 AI Video Generator")
+    st.write("Generate short cinematic clips and reels! (Costs 5 Credits) | സിനിമാറ്റിക് വീഡിയോകൾ ഉണ്ടാക്കുക! (5 ക്രെഡിറ്റ്)")
 
-    if hasattr(item, "read"):
-        return item.read()
-        raise TypeError(f"Unsupported video output type: {type(item)}")
-       # TAB 3: VIDEO GENERATOR  
-    with tab3:
-       st.title("🎬 Image to Video Generator")
-       st.write("Convert a generated or uploaded image into a short video! (Costs 5 Credits)")
-    has_prev_img = bool(st.session_state.get("generated_img")) 
-     use_generated = st.checkbox(
-        "Use previously generated image",
-        value=has_prev_img,
-        key="use_gen_img_for_video",
-    )
-
-    uploaded_img = None
-    if not use_generated:
-        uploaded_img = st.file_uploader(
-            "Upload an image (PNG/JPG):",
-            type=["png", "jpg", "jpeg"],
-            key="video_source_uploader",
-        )
-
-    motion_prompt = st.text_input(
-        "Motion / Scene description:",
-        placeholder="e.g., slow camera pan, cars moving smoothly, neon lights glowing",
-        key="video_motion_prompt",
+    video_prompt = st.text_input(
+        "Enter video description (in English):",
+        "Enter video description (in English):",
+        placeholder="e.g., A futuristic car driving through a neon city at night, cinematic lighting, 4k",
+        key="video_prompt_input",
     )
 
     if st.button("Generate Video 🎬", key="btn_generate_video"):
-        img_bytes = None
-        mime_type = "image/png"
-
-        if use_generated and has_prev_img:
-            raw = st.session_state["generated_img"]
-            img_bytes = raw.getvalue() if hasattr(raw, "getvalue") else raw
-        elif uploaded_img is not None:
-            img_bytes = uploaded_img.getvalue()
-            mime_type = uploaded_img.type or "image/png"
-
-        if not img_bytes:
-            st.warning("Please generate an image first or upload an image!")
-        elif not motion_prompt.strip():
-            st.warning("Please enter a motion description!")
-        else:
+        if video_prompt:
             with st.spinner("⏳ Generating video... This may take 1-2 minutes..."):
                 try:
-                    image_uri = image_bytes_to_data_uri(img_bytes, mime_type)
                     output = replicate.run(
-                        "<IMAGE_TO_VIDEO_MODEL>",
-                        input={
-                            "image": image_uri,
-                            "prompt": motion_prompt.strip(),
-                        },
+                        "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
+                        input={"prompt": video_prompt},
                     )
-                    video_data = extract_video_source(output)
-                    st.session_state["generated_video"] = video_data
+                    st.success("✅ Video generated successfully!")
+                    st.video(output[0])
                     deduct_credits(user_email, 5)
                     st.rerun()
                 except Exception as e:
-                    st.error(f"Error: {repr(e)}")
-                    if st.session_state.get("generated_video"):
-                       st.success("✅ Video generated successfully!")
-                       st.video(st.session_state["generated_video"])
-                   
+                    st.error(f"Error: {e}")
+        else:
+            st.warning("Please enter a description!")
