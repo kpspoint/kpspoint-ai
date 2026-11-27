@@ -15,11 +15,7 @@ st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wi
 st.markdown(
    # ശരിയായ രീതി (ടെക്സ്റ്റ് കറുപ്പ് നിറമാക്കുകയോ അല്ലെങ്കിൽ ബോക്സ് കറുപ്പാക്കുകയോ ചെയ്യുക)
 st.markdown(
-    """
-    <div style="background-color: #0e1117; padding: 20px; border-radius: 10px; border: 1px solid #ffffff;">
-        <p style="color: #ffffff; font-size: 16px;">👉 Please enter your email in the left sidebar to start using the app!</p>
-    </div>
-""",
+   
     unsafe_allow_html=True,
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
