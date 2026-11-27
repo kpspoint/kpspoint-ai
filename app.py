@@ -1,5 +1,4 @@
-
-        img_prompt = st.text_input(
+             img_prompt = st.text_input(
             "Enter image description (in English):",
             placeholder=(
                 "e.g., A futuristic city with flying cars, "
