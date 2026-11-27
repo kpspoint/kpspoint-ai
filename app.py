@@ -14,82 +14,52 @@ st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wi
 st.markdown(
     """
 <style>
-    /* 1. മൊത്തത്തിലുള്ള ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആക്കുന്നു */
+    /* മൊത്തത്തിലുള്ള ആപ്പ് ബാക്ക്ഗ്രൗണ്ട് */
     .stApp {
         background-color: #0b0f19 !important;
     }
 
-    /* 2. പ്രധാന ടെക്സ്റ്റുകൾ എല്ലാം വെളുപ്പ് ആക്കുന്നു */
-    p, span, label, h1, h2, h3, h4, h5, h6, a {
+    /* എല്ലാ പ്രധാന ടെക്സ്റ്റുകളും വെളുപ്പാക്കുന്നു */
+    h1, h2, h3, h4, h5, h6, span, label, a {
         color: #ffffff !important;
     }
 
-    /* 3. സൈഡ്ബാറിന്റെ ബാക്ക്ഗ്രൗണ്ട് */
-    [data-testid="stSidebar"] {
-        background-color: #111827 !important;
-    }
-    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label {
-        color: #ffffff !important;
-    }
-
-    /* 4. ഫയൽ അപ്‌ലോഡർ ബോക്സ് കംപ്ലീറ്റ് ഡാർക്ക് ആക്കുന്നു */
+    /* ഫയൽ അപ്‌ലോഡർ ബോക്സ് (വെള്ള നിറം വരുന്നത് തടയാൻ) */
     [data-testid="stFileUploader"] {
         background-color: #1f2937 !important;
-        border: 1px dashed #4b5563 !important;
-        padding: 15px;
+        border: 2px dashed #4b5563 !important;
         border-radius: 10px;
+        padding: 10px;
     }
+
+    /* അപ്‌ലോഡർ ബോക്സിനുള്ളിലെ ടെക്സ്റ്റുകൾ കാണാൻ */
     [data-testid="stFileUploader"] section {
         background-color: #1f2937 !important;
     }
+    [data-testid="stFileUploader"] section div, 
+    [data-testid="stFileUploader"] section span, 
+    [data-testid="stFileUploader"] section small {
+        color: #ffffff !important;
+    }
 
-    /* ഫയൽ അപ്‌ലോഡറിനുള്ളിലെ 'Browse files' ബട്ടൺ കറുപ്പ്/ഗ്രേ ആക്കുന്നു */
+    /* അപ്‌ലോഡ് ബട്ടൺ ഡാർക്ക് ആക്കുന്നു */
     [data-testid="stFileUploader"] button {
         background-color: #374151 !important;
         color: #ffffff !important;
-        border: 1px solid #4b5563 !important;
+        border: 1px solid #6b7280 !important;
     }
-    /* ബട്ടണിലെ ആരോ മാർക്കും (SVG) ടെക്സ്റ്റും വെളുപ്പാക്കുന്നു */
     [data-testid="stFileUploader"] button svg {
         fill: #ffffff !important;
-        color: #ffffff !important;
-    }
-    [data-testid="stFileUploader"] span, [data-testid="stFileUploader"] small {
-        color: #d1d5db !important;
     }
 
-    /* 5. ചാറ്റ് ഇൻപുട്ട് ബോക്സ് കംപ്ലീറ്റ് ഡാർക്ക് ആക്കുന്നു */
+    /* താഴെയുള്ള ചാറ്റ് ഇൻപുട്ട് ബോക്സ് */
     .stChatInputContainer {
         background-color: #1f2937 !important;
         border: 1px solid #374151 !important;
-        border-radius: 10px !important;
     }
     .stChatInputContainer textarea {
         background-color: #1f2937 !important;
         color: #ffffff !important;
-    }
-    /* ചാറ്റ് ഇൻപുട്ടിലെ സെൻ്റ് ബട്ടൺ */
-    .stChatInputContainer button {
-        background-color: #3b82f6 !important;
-        color: #ffffff !important;
-    }
-    .stChatInputContainer button svg {
-        fill: #ffffff !important;
-    }
-
-    /* 6. മറ്റ് സാധാരണ ബട്ടണുകൾ */
-    .stButton>button {
-        background-color: #3b82f6 !important;
-        color: #ffffff !important;
-        font-weight: bold;
-        border-radius: 8px;
-    }
-
-    /* 7. ചാറ്റ് മെസ്സേജുകൾ */
-    .stChatMessage {
-        background-color: #1f2937 !important;
-        border: 1px solid #374151 !important;
-        border-radius: 10px;
     }
 </style>
 """,
