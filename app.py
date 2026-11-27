@@ -230,6 +230,8 @@ if user_email:
                            
     
     # --- 2. IMAGE GENERATOR SECTION ---
+    if app_mode == "💬 AI Chat":
+    # AI Chat code
     elif app_mode == "🎨 Image Generator":
 
         st.title("🎨 AI Image Generator")
