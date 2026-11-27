@@ -190,9 +190,9 @@ if user_email:
                     except Exception as e:
                         st.error(f"Error: {repr(e)}")
 
-    if st.session_state.get("generated_img"):
-    st.success("✅ Image generated successfully!")
-    st.image(st.session_state["generated_img"], caption="Generated Image")
+if st.session_state.get("generated_img"):
+st.success("✅ Image generated successfully!")
+st.image(st.session_state["generated_img"], caption="Generated Image")
 
 
 def image_bytes_to_data_uri(img_bytes: bytes, mime_type: str = "image/png") -> str:
