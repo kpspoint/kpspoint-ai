@@ -1,4 +1,31 @@
 import streamlit as st
+
+# CSS കോഡ് ചേർക്കുന്നു (ടെക്സ്റ്റ് കളർ മാറ്റാൻ)
+st.markdown(
+    """
+    <style>
+    /* പ്രധാന പേജിലെ ടെക്സ്റ്റ് കളർ കറുപ്പ്/വെള്ള ആക്കാൻ */
+    .stApp {
+        color: #000000; /* കറുപ്പ് നിറം (ആവശ്യമെങ്കിൽ മാറ്റാം) */
+    }
+
+    /* എറർ മെസ്സേജ് കാണാൻ (Red Box) */
+    .stException {
+        background-color: #ffcccc !important;
+        color: #cc0000 !important;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    /* ഇൻപുട്ട് ബോക്സ് ടെക്സ്റ്റ് */
+    input, textarea {
+        color: #000000 !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 import replicate
