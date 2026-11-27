@@ -14,43 +14,61 @@ st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wi
 st.markdown(
     """
 <style>
-    /* ആപ്പിന്റെ ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആക്കുന്നു */
+    /* 1. മൊത്തത്തിലുള്ള ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആക്കുന്നു */
     .stApp {
-        background-color: #000000 !important;
+        background-color: #0b0f19 !important;
     }
 
-    /* പ്രധാന ഹെഡിംഗുകളും സാധാരണ ടെക്സ്റ്റുകളും മാത്രം വെളുപ്പ് ആക്കുന്നു (div ഒഴിവാക്കി) */
+    /* 2. പ്രധാന ടെക്സ്റ്റുകൾ എല്ലാം വെളുപ്പ് ആക്കുന്നു */
     p, span, label, h1, h2, h3, h4, h5, h6, a {
         color: #ffffff !important;
     }
 
-    /* സൈഡ്ബാറിന്റെ ബാക്ക്ഗ്രൗണ്ട് */
+    /* 3. സൈഡ്ബാറിന്റെ ബാക്ക്ഗ്രൗണ്ട് */
     [data-testid="stSidebar"] {
-        background-color: #111111 !important;
+        background-color: #111827 !important;
     }
-
-    /* സൈഡ്ബാറിലെ ടെക്സ്റ്റുകൾ */
     [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label {
         color: #ffffff !important;
     }
 
-    /* ഇൻപുട്ട് ബോക്സുകൾ */
-    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
-        background-color: #222222 !important;
+    /* 4. ഫയൽ അപ്‌ലോഡർ ബോക്സ് ഡാർക്ക് ആക്കുന്നു */
+    [data-testid="stFileUploader"] {
+        background-color: #1f2937 !important;
+        border: 1px dashed #4b5563 !important;
+        padding: 15px;
+        border-radius: 10px;
+    }
+    [data-testid="stFileUploader"] section {
+        background-color: #1f2937 !important;
+    }
+    [data-testid="stFileUploader"] span, [data-testid="stFileUploader"] small {
+        color: #d1d5db !important;
+    }
+
+    /* 5. ചാറ്റ് ഇൻപുട്ട് ബോക്സ് (Type your question...) ഡാർക്ക് ആക്കുന്നു */
+    .stChatInputContainer {
+        background-color: #1f2937 !important;
+        border-radius: 10px;
+    }
+    .stChatInputContainer textarea {
+        background-color: #1f2937 !important;
         color: #ffffff !important;
     }
 
-    /* ബട്ടണുകൾ */
+    /* 6. ബട്ടണുകൾ */
     .stButton>button {
-        background-color: #ffffff !important;
-        color: #000000 !important;
+        background-color: #3b82f6 !important;
+        color: #ffffff !important;
         font-weight: bold;
+        border-radius: 8px;
     }
 
-    /* ചാറ്റ് ബോക്സുകൾ */
+    /* 7. ചാറ്റ് മെസ്സേജുകൾ */
     .stChatMessage {
-        background-color: #1a1a1a !important;
-        border: 1px solid #333333 !important;
+        background-color: #1f2937 !important;
+        border: 1px solid #374151 !important;
+        border-radius: 10px;
     }
 </style>
 """,
