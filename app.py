@@ -1,3 +1,20 @@
+import streamlit as st
+from langchain.memory import ConversationBufferMemory
+
+# --- 1. പേജ് സെറ്റപ്പ് ---
+st.title("എൻ്റെ AI ചാറ്റ്‌ബോട്ട്")
+
+# --- 2. ചാറ്റ് ഹിസ്റ്ററി സേവ് ചെയ്യാൻ മെമ്മറി സെറ്റ് ചെയ്യുന്നു ---
+if "memory" not in st.session_state:
+    st.session_state.memory = ConversationBufferMemory()
+
+# --- 3. ബാക്കി ചാറ്റ് കോഡുകൾ ഇവിടെ എഴുതാം ---
+# ഉദാഹരണത്തിന്:
+user_input = st.text_input("നിങ്ങൾക്ക് എന്താണ് ചോദിക്കേണ്ടത്?")
+
+if user_input:
+    st.write(f"നിങ്ങൾ ചോദിച്ചത്: {user_input}")
+    # മെമ്മറിയിൽ ഡാറ്റ സേവ് ചെയ്യുന്ന കോഡുകൾ ഇവിടെ തുടർന്ന് എഴുതാം
 import io
 import os
 import streamlit as st
