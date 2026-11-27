@@ -225,11 +225,8 @@ if user_email:
 
         if st.button("Generate Image 🖼️"):
             if img_prompt:
-             with st.spinner("⏳ Loading..."):
+           with st.spinner("⏳ Loading..."):
     st.write("Loading...")
-
-if app_mode == "💬 AI Chat":
-                           
     
     # --- 2. IMAGE GENERATOR SECTION ---
     if app_mode == "💬 AI Chat":
