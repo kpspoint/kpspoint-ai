@@ -87,10 +87,6 @@ if credits <= 0:
     st.sidebar.error("❌ No credits left!")
     render_recharge_ui()
     st.stop()
-if credits <= 0:
-    st.sidebar.error("❌ No credits left!")
-    render_recharge_ui()
-    st.stop()
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
