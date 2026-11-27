@@ -7,17 +7,9 @@ from supabase import create_client, Client
 import qrcode
 import io
 
-# --- Page Configuration (Single time at the very top) ---
-st.set_page_config(
-    page_title="KPS Point AI",
-    page_icon="🤖",
-    layout="wide",  # Screen full width aakkaan
-    initial_sidebar_state="expanded",
-)
-
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-1.5-flash") # Updated to stable flash model
+model = genai.GenerativeModel("gemini-3.8-flash")
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
@@ -61,6 +53,8 @@ def deduct_credits(email, amount):
     return new_credits
 
 # --- Main App UI ---
+st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
+
 st.sidebar.title("🔐 Login / Sign Up")
 user_email = st.sidebar.text_input("Enter your email to start:")
 
@@ -124,6 +118,7 @@ if user_email:
 
         uploaded_file = st.file_uploader("Upload an image or file (Optional) | ഒരു ചിത്രമോ ഫയലോ അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png", "pdf", "txt"])
 
+        # ✅ ഇത് വളരെ പ്രധാനം - ചാറ്റ് ഇൻപുട്ട് ബോക്സ്!
         prompt = st.chat_input("Type your question here... | നിങ്ങളുടെ ചോദ്യം ഇവിടെ ടൈപ്പ് ചെയ്യുക...")
 
         if prompt or uploaded_file:
