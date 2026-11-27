@@ -227,9 +227,47 @@ if user_email:
             if img_prompt:
                 with st.spinner("⏳ Generating image... Please wait..."):
                     try:
-                             output = replicate.run
+                           
+    # --- 2. IMAGE GENERATOR SECTION ---
+    elif app_mode == "🎨 Image Generator":
+        st.title("🎨 AI Image Generator")
+        st.markdown("✨ Generate stunning images! (Costs 1 Credit)")
+
+        img_prompt = st.text_input(
+            "Enter image description (in English):",
+            placeholder="A futuristic city with flying cars, cinematic lighting",
+            key="img_input"
+        )
+
+        if st.button("Generate Image 🖼️"):
+            if img_prompt:
+                with st.spinner("⏳ Generating image... Please wait..."):
+                    try:
+                        output = replicate.run(
                             "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
                             input={"prompt": img_prompt}
+                        )
+
+                        if output:
+                            st.success("✅ Image generated successfully!")
+
+                            image_url = str(output[0])
+                            st.image(
+                                image_url,
+                                caption="Generated Image",
+                                use_container_width=True
+                            )
+
+                            deduct_credits(user_email, 1)
+                            st.rerun()
+                        else:
+                            st.error("Image generation failed. Please try again.")
+
+                    except Exception as e:
+                        st.error(f"Image Generation Error: {e}")
+            else:
+                st.warning("Please enter a description!")
+
                       
 st.success("✅ Image generated successfully!")
 
