@@ -204,7 +204,7 @@ img_prompt = st.text_input(
     key="image_prompt",
 )
 
-if st.button("Generate Image 🖼️"):
+if st.button("Generate Image 🖼️", key="btn_generate_image"):
     if img_prompt:
         with st.spinner("⏳ Generating image..."):
             try:
@@ -221,29 +221,30 @@ if st.button("Generate Image 🖼️"):
     else:
         st.warning("Please enter a description!")
 
-    # TAB 3: VIDEO GENERATOR
-    with tab3:
-        st.title("🎥 AI Video Generator")
-        st.write("Generate short cinematic clips and reels! (Costs 5 Credits) | സിനിമാറ്റിക് വീഡിയോകൾ ഉണ്ടാക്കുക! (5 ക്രെഡിറ്റ്)")
+# TAB 3: VIDEO GENERATOR (Generate Image ബട്ടണിന് പുറത്ത്)
+with tab3:
+    st.title("🎥 AI Video Generator")
+    st.write("Generate short cinematic clips and reels! (Costs 5 Credits) | സിനിമാറ്റിക് വീഡിയോകൾ ഉണ്ടാക്കുക! (5 ക്രെഡിറ്റ്)")
 
-        video_prompt = st.text_input("Enter video description (in English):", placeholder="e.g., A futuristic car driving through a neon city at night, cinematic lighting, 4k")
+    video_prompt = st.text_input(
+        "Enter video description (in English):",
+        placeholder="e.g., A futuristic car driving through a neon city at night, cinematic lighting, 4k",
+        key="video_prompt_input",
+    )
 
-        if st.button("Generate Video 🎬"):
-            if video_prompt:
-                with st.spinner("⏳ Generating video... This may take 1-2 minutes..."):
-                    try:
-                        output = replicate.run(
-                            "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
-                            input={"prompt": video_prompt}
-                        )
-                        st.success("✅ Video generated successfully!")
-                        st.video(output[0])
-                        deduct_credits(user_email, 5)
-                        st.rerun()
-                    except Exception as e:
-                        st.error(f"Error: {e}")
-            else:
-                st.warning("Please enter a description!")
-
-else:
-    st.warning("⚠️ Please enter your email in the left sidebar to start using the app!")
+    if st.button("Generate Video 🎬", key="btn_generate_video"):
+        if video_prompt:
+            with st.spinner("⏳ Generating video... This may take 1-2 minutes..."):
+                try:
+                    output = replicate.run(
+                        "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
+                        input={"prompt": video_prompt},
+                    )
+                    st.success("✅ Video generated successfully!")
+                    st.video(output[0])
+                    deduct_credits(user_email, 5)
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error: {e}")
+        else:
+            st.warning("Please enter a description!")
