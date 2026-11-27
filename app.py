@@ -211,8 +211,7 @@ def extract_video_source(output):
 
     if hasattr(item, "read"):
         return item.read()
-
-          raise TypeError(f"Unsupported video output type: {type(item)}")
+     raise TypeError(f"Unsupported video output type: {type(item)}")
     
      # TAB 3: VIDEO GENERATOR 
        with tab3:
