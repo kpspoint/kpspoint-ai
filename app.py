@@ -148,4 +148,4 @@ if user_email:
 
     # --- 1. AI CHAT SECTION ---
     if app_mode == "💬 AI Chat":
-        st.title("🤖 kpspoint AI Assistant
+       
