@@ -1,4 +1,3 @@
-# Recharge Button
 st.sidebar.markdown("---")
 if st.sidebar.button("💳 Recharge Credits"):
     st.sidebar.subheader("📱 Scan & Pay")
