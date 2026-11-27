@@ -1,18 +1,22 @@
-                with st.spinner("⏳ AI ചിന്തിക്കുന്നു... | AI is thinking..."):
-                    try:
-                        if image_for_prompt is not None:
-                            response = st.session_state.chat_session.send_message(
-                                [image_for_prompt, prompt]
-                            )
-                        else:
-                            response = st.session_state.chat_session.send_message(
-                                prompt
-                            )
 
-                        st.markdown(response.text)
+if user_email:
 
-                    except Exception as e:
-                        st.error(f"Chat Error: {e}")
+    if app_mode == "💬 Chat":
+        with st.spinner("⏳ AI ചിന്തിക്കുന്നു... | AI is thinking..."):
+            try:
+                if image_for_prompt is not None:
+                    response = st.session_state.chat_session.send_message(
+                        [image_for_prompt, prompt]
+                    )
+                else:
+                    response = st.session_state.chat_session.send_message(
+                        prompt
+                    )
+
+                st.markdown(response.text)
+
+            except Exception as e:
+                st.error(f"Chat Error: {e}")
 
     # --- 2. IMAGE GENERATOR SECTION ---
     elif app_mode == "🎨 Image Generator":
@@ -53,11 +57,11 @@
                             )
                             st.success("✅ Image generated successfully!")
                             remaining_credits = deduct_credits(user_email, 1)
-                            credits_display.metric("💰 Your Credits", remaining_credits)
-                        else:
-                            st.error(
-                                "Image generation failed. Please try again."
+                            credits_display.metric(
+                                "💰 Your Credits", remaining_credits
                             )
+                        else:
+                            st.error("Image generation failed. Please try again.")
 
                     except Exception as e:
                         st.error(f"Image Generation Error: {e}")
@@ -82,11 +86,9 @@
             if not video_prompt.strip():
                 st.warning("Please enter a description!")
             elif get_user_credits(user_email) < 5:
-                st.error("You do not have enough credits. Video generation costs 5 credits.")
+                st.error("You do not have enough credits.")
             else:
-                with st.spinner(
-                    "⏳ Generating video... This may take 1-2 minutes..."
-                ):
+                with st.spinner("⏳ Generating video... Please wait..."):
                     try:
                         output = replicate.run(
                             "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
@@ -97,11 +99,11 @@
                             st.video(str(output[0]))
                             st.success("✅ Video generated successfully!")
                             remaining_credits = deduct_credits(user_email, 5)
-                            credits_display.metric("💰 Your Credits", remaining_credits)
-                        else:
-                            st.error(
-                                "Video generation failed. Please try again."
+                            credits_display.metric(
+                                "💰 Your Credits", remaining_credits
                             )
+                        else:
+                            st.error("Video generation failed. Please try again.")
 
                     except Exception as e:
                         st.error(f"Video Generation Error: {e}")
