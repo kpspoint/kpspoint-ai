@@ -211,8 +211,8 @@ if st.button("Generate Image 🖼️"):
                      "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
                      input={"prompt": img_prompt}
                         )
-                        st.success("✅ Image generated successfully!")
-                        st.image(output[0], caption="Generated Image")
+                           st.success("✅ Image generated successfully!")
+                         st.image(output[0], caption="Generated Image")
                         deduct_credits(user_email, 1)
                         st.rerun()
                     except Exception as e:
