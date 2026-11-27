@@ -11,13 +11,47 @@ import io
 st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
 
 # --- Custom CSS for Beautiful Dark UI ---
-# ശരിയായ രീതി (ടെക്സ്റ്റ് കറുപ്പ് നിറമാക്കുകയോ അല്ലെങ്കിൽ ബോക്സ് കറുപ്പാക്കുകയോ ചെയ്യുക)
-st.markdown
-   # ശരിയായ രീതി (ടെക്സ്റ്റ് കറുപ്പ് നിറമാക്കുകയോ അല്ലെങ്കിൽ ബോക്സ് കറുപ്പാക്കുകയോ ചെയ്യുക)
-    unsafe_allow_html=True,)
+st.markdown("""
+<style>
+    /* ആപ്പിന്റെ ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആക്കുന്നു */
+    .stApp {
+        background-color: #000000;
+    }
+    
+    /* എല്ലാ ടെക്സ്റ്റുകളും വെളുപ്പ് ആക്കുന്നു */
+    p, span, label, h1, h2, h3, h4, h5, h6, div, a {
+        color: #ffffff !important;
+    }
+    
+    /* സൈഡ്ബാറിന്റെ ബാക്ക്ഗ്രൗണ്ട് */
+    [data-testid="stSidebar"] {
+        background-color: #111111 !important;
+    }
+    
+    /* ഇൻപുട്ട് ബോക്സുകൾ */
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
+        background-color: #222222;
+        color: #ffffff;
+    }
+    
+    /* ബട്ടണുകൾ */
+    .stButton>button {
+        background-color: #ffffff;
+        color: #000000;
+        font-weight: bold;
+    }
+    
+    /* ചാറ്റ് ബോക്സുകൾ */
+    .stChatMessage {
+        background-color: #1a1a1a;
+        border: 1px solid #333333;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-3.5-flash-lite")
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
