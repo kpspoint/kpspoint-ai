@@ -271,8 +271,6 @@ def extract_video_source(output):
                 except Exception as e:
                     st.error(f"Error: {repr(e)}")
 
-    if st.session_state.get("generated_video"):
-        st.success("✅ Video generated successfully!")
-        st.video(st.session_state["generated_video"])
+   
 
                    
