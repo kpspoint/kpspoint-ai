@@ -161,8 +161,6 @@ if user_email:
                         st.session_state.messages.append({"role": "assistant", "content": response.text})
                     except Exception as e:
                         st.error(f"Error: {e}")
-
-    # TAB 2: IMAGE GENERATOR
     # TAB 2: IMAGE GENERATOR
     with tab2:
         st.title("🎨 AI Image Generator")
