@@ -194,10 +194,9 @@ if user_email:
                          st.success("✅ Image generated successfully!")
                          st.image(st.session_state["generated_img"], caption="Generated Image")
 
-
-                      def image_bytes_to_data_uri(img_bytes: bytes, mime_type: str = "image/png") -> str:
-                      encoded = base64.b64encode(img_bytes).decode("utf-8")
-                        return f"data:{mime_type};base64,{encoded}"
+   def image_bytes_to_data_uri(img_bytes: bytes, mime_type: str = "image/png") -> str:
+  encoded = base64.b64encode(img_bytes).decode("utf-8")
+ return f"data:{mime_type};base64,{encoded}"
 
 
 def extract_video_source(output):
