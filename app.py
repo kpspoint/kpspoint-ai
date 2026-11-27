@@ -1,31 +1,4 @@
 import streamlit as st
-
-# CSS കോഡ് ചേർക്കുന്നു (ടെക്സ്റ്റ് കളർ മാറ്റാൻ)
-st.markdown(
-    """
-    <style>
-    /* പ്രധാന പേജിലെ ടെക്സ്റ്റ് കളർ കറുപ്പ്/വെള്ള ആക്കാൻ */
-    .stApp {
-        color: #000000; /* കറുപ്പ് നിറം (ആവശ്യമെങ്കിൽ മാറ്റാം) */
-    }
-
-    /* എറർ മെസ്സേജ് കാണാൻ (Red Box) */
-    .stException {
-        background-color: #ffcccc !important;
-        color: #cc0000 !important;
-        padding: 10px;
-        border-radius: 5px;
-    }
-
-    /* ഇൻപുട്ട് ബോക്സ് ടെക്സ്റ്റ് */
-    input, textarea {
-        color: #000000 !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 import replicate
@@ -37,30 +10,38 @@ import io
 # --- Page Configuration ---
 st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
 
-# --- Custom CSS for Beautiful UI ---
+# --- Custom CSS for Beautiful UI & Text Visibility Fix ---
 st.markdown("""
     <style>
-    /* Main Background & Font */
+    /* Main Background & Text Color */
     .stApp {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background-color: #f8f9fa;
+        color: #111111 !important;
         font-family: 'Inter', sans-serif;
+    }
+
+    /* Make all standard text dark for readability */
+    p, span, label, h1, h2, h3, h4, h5, h6 {
+        color: #222222 !important;
     }
 
     /* Sidebar Styling */
     section[data-testid="stSidebar"] {
         background-color: #1e1e2f;
-        color: white;
     }
-    section[data-testid="stSidebar"] .stTextInput label, 
     section[data-testid="stSidebar"] p, 
-    section[data-testid="stSidebar"] span {
+    section[data-testid="stSidebar"] span, 
+    section[data-testid="stSidebar"] label,
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3 {
         color: #ffffff !important;
     }
 
-    /* Cards/Containers */
+    /* Buttons Styling */
     div.stButton > button {
         background: linear-gradient(90deg, #ff8008 0%, #ffc837 100%);
-        color: white;
+        color: white !important;
         border: none;
         border-radius: 8px;
         padding: 0.6rem 1.2rem;
@@ -88,12 +69,15 @@ st.markdown("""
         background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%) !important;
         color: white !important;
     }
+    .stTabs [aria-selected="true"] p {
+        color: white !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-3.5-flash-lite") 
+model = genai.GenerativeModel("gemini-3.5-flash-lite") # Updated model name for better compatibility
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
@@ -187,16 +171,14 @@ if user_email:
     # --- Main App Tabs ---
     tab1, tab2, tab3 = st.tabs(["💬 AI Chat", "🎨 Image Generator", "🎥 Video Generator"])
 
-    # TAB 1: CHAT (Memory Fixed via Gemini chat session)
+    # TAB 1: CHAT
     with tab1:
         st.title("🤖 kpspoint AI Assistant")
         st.markdown("💬 **ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ!** | *Ask questions, upload images & chat with full memory!*")
 
-        # Initialize Gemini Chat Session in Streamlit Session State
         if "chat_session" not in st.session_state:
             st.session_state.chat_session = model.start_chat(history=[])
 
-        # Display Chat History from Gemini's history
         for message in st.session_state.chat_session.history:
             role = "user" if message.role == "user" else "assistant"
             with st.chat_message(role):
@@ -205,8 +187,6 @@ if user_email:
                         st.markdown(part.text)
 
         uploaded_file = st.file_uploader("Upload an image (Optional) | ഒരു ചിത്രം അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png"])
-
-        # Chat Input
         prompt = st.chat_input("Type your question here... | നിങ്ങളുടെ ചോദ്യം ഇവിടെ ടൈപ്പ് ചെയ്യുക...")
 
         if prompt:
@@ -278,7 +258,6 @@ if user_email:
                 st.warning("Please enter a description!")
 
 else:
-    # Landing page style when logged out
     st.markdown("<h1 style='text-align: center; color: #4e54c8;'>🚀 Welcome to kpspoint AI Studio</h1>", unsafe_allow_html=True)
     st.markdown("<h4 style='text-align: center; color: #555;'>Your All-in-One AI Platform for Chatting, Images, and Videos.</h4>", unsafe_allow_html=True)
     st.info("👈 **Please enter your email in the left sidebar to start using the app!**")
