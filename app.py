@@ -61,7 +61,32 @@ def render_recharge_ui():
 
 if st.sidebar.button("💳 Recharge Credits"):
     render_recharge_ui()
+def safe_int(value, default: int = 0) -> int:
+    if value is None or isinstance(value, bool):
+        return default
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
 
+
+# നിങ്ങളുടെ നിലവിലുള്ള user_email / get_credits ലോജിക് അനുസരിച്ച് സുരക്ഷിതമായി എടുക്കുക
+user_email = st.session_state.get("user_email")
+if isinstance(user_email, str) and user_email.strip():
+    user_email = user_email.strip().lower()
+    try:
+        raw_credits = get_credits(user_email)
+    except Exception:
+        raw_credits = 0
+    credits = safe_int(raw_credits, default=0)
+else:
+    user_email = None
+    credits = 0
+
+if credits <= 0:
+    st.sidebar.error("❌ No credits left!")
+    render_recharge_ui()
+    st.stop()
 if credits <= 0:
     st.sidebar.error("❌ No credits left!")
     render_recharge_ui()
