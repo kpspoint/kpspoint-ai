@@ -19,12 +19,7 @@ st.markdown(
     </div>
 """,  
 )
-unsafe_allow_html=True,[theme]
-primaryColor = "#FF4B4B"
-backgroundColor = "#0E1117"
-secondaryBackgroundColor = "#262730"
-textColor = "#FAFAFA"
-font = "sans serif"
+
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel("gemini-3.5-flash-lite")
