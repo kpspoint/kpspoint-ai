@@ -201,23 +201,25 @@ if user_email:
 img_prompt = st.text_input(
     "Enter image description (in English):",
     placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution",
-    key="image_prompt" )
-   if st.button("Generate Image 🖼️"):
-   if img_prompt:
- with st.spinner("⏳ Generating image..."):
- try:
-output = replicate.run(
-"stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
-input={"prompt": img_prompt}
+    key="image_prompt",
 )
-st.success("✅ Image generated successfully!")
- st.image(output[0], caption="Generated Image")
- deduct_credits(user_email, 1)
-st.rerun()
-except Exception as e:
- st.error(f"Error: {e}")
-else:
-st.warning("Please enter a description!")
+
+if st.button("Generate Image 🖼️"):
+    if img_prompt:
+        with st.spinner("⏳ Generating image..."):
+            try:
+                output = replicate.run(
+                    "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
+                    input={"prompt": img_prompt},
+                )
+                st.success("✅ Image generated successfully!")
+                st.image(output[0], caption="Generated Image")
+                deduct_credits(user_email, 1)
+                st.rerun()
+            except Exception as e:
+                st.error(f"Error: {e}")
+    else:
+        st.warning("Please enter a description!")
 
     # TAB 3: VIDEO GENERATOR
     with tab3:
