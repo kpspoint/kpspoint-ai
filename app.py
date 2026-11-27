@@ -1,4 +1,3 @@
-
 # --- KPSPOINT PREMIUM RESPONSIVE THEME ---
 st.markdown("""
 <style>
