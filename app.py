@@ -1,62 +1,16 @@
-import streamlit as st
-import google.generativeai as genai
-from PIL import Image
-import replicate
-import os
-from supabase import create_client, Client
-import qrcode
-import io
-
 # --- Page Configuration ---
 st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
 
-# --- Custom CSS for Beautiful UI & Text Visibility Fix ---
-     background-color: #000000
-File "/mount/src/kpspoint-ai/app.py", line 14
-       background-color: #ഇവിടെ_നൽകേണ്ട_കോഡ്;
-      ^
-        color: #111111 !important; /* ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആണെങ്കിൽ ഇത് #ffffff ആക്കണം */
-    
-    }
-
-    /* Make all standard text dark for readability */
-    p, span, label, h1, h2, h3, h4, h5, h6 {
-        color: #222222 !important;
-    }
-
-    /* Sidebar Styling */
-    section[data-testid="stSidebar"] {
-        background-color: #1e1e2f;
-    }
-    section[data-testid="stSidebar"] p, 
-    section[data-testid="stSidebar"] span, 
-    section[data-testid="stSidebar"] label,
-    section[data-testid="stSidebar"] h1,
-    section[data-testid="stSidebar"] h2,
-    section[data-testid="stSidebar"] h3 {
-        color: #ffffff !important;
-    }
-
-    /* Buttons Styling */
-    div.stButton > button {
-        background: linear-gradient(90deg, #ff8008 0%, #ffc837 100%);
-        color: white !important;
-        border: none;
-        border-radius: 8px;
-        padding: 0.6rem 1.2rem;
-        font-weight: bold;
-        transition: 0.3s;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    div.stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 8px rgba(0,0,0,0.15);
-    }
-    </style>
+# --- Custom CSS for Beautiful Dark UI ---
+st.markdown("""
+<style>
+    /* ... മുകളിലെ CSS കോഡ് ഇവിടെ ... */
+</style>
 """, unsafe_allow_html=True)
 
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+# ... ബാക്കി കോഡ് ...
 model = genai.GenerativeModel("gemini-3.5-flash-lite")
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
