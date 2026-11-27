@@ -226,7 +226,7 @@ if user_email:
         if st.button("Generate Image 🖼️"):
             if img_prompt:
                 with st.spinner("⏳ Generating image... Please wait..."):
-                    try:
+                
                            
     
     # --- 2. IMAGE GENERATOR SECTION ---
