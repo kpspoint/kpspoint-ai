@@ -32,7 +32,7 @@ st.markdown(
         color: #ffffff !important;
     }
 
-    /* 4. ഫയൽ അപ്‌ലോഡർ ബോക്സ് ഡാർക്ക് ആക്കുന്നു */
+    /* 4. ഫയൽ അപ്‌ലോഡർ ബോക്സ് കംപ്ലീറ്റ് ഡാർക്ക് ആക്കുന്നു */
     [data-testid="stFileUploader"] {
         background-color: #1f2937 !important;
         border: 1px dashed #4b5563 !important;
@@ -42,21 +42,42 @@ st.markdown(
     [data-testid="stFileUploader"] section {
         background-color: #1f2937 !important;
     }
+
+    /* ഫയൽ അപ്‌ലോഡറിനുള്ളിലെ 'Browse files' ബട്ടൺ കറുപ്പ്/ഗ്രേ ആക്കുന്നു */
+    [data-testid="stFileUploader"] button {
+        background-color: #374151 !important;
+        color: #ffffff !important;
+        border: 1px solid #4b5563 !important;
+    }
+    /* ബട്ടണിലെ ആരോ മാർക്കും (SVG) ടെക്സ്റ്റും വെളുപ്പാക്കുന്നു */
+    [data-testid="stFileUploader"] button svg {
+        fill: #ffffff !important;
+        color: #ffffff !important;
+    }
     [data-testid="stFileUploader"] span, [data-testid="stFileUploader"] small {
         color: #d1d5db !important;
     }
 
-    /* 5. ചാറ്റ് ഇൻപുട്ട് ബോക്സ് (Type your question...) ഡാർക്ക് ആക്കുന്നു */
+    /* 5. ചാറ്റ് ഇൻപുട്ട് ബോക്സ് കംപ്ലീറ്റ് ഡാർക്ക് ആക്കുന്നു */
     .stChatInputContainer {
         background-color: #1f2937 !important;
-        border-radius: 10px;
+        border: 1px solid #374151 !important;
+        border-radius: 10px !important;
     }
     .stChatInputContainer textarea {
         background-color: #1f2937 !important;
         color: #ffffff !important;
     }
+    /* ചാറ്റ് ഇൻപുട്ടിലെ സെൻ്റ് ബട്ടൺ */
+    .stChatInputContainer button {
+        background-color: #3b82f6 !important;
+        color: #ffffff !important;
+    }
+    .stChatInputContainer button svg {
+        fill: #ffffff !important;
+    }
 
-    /* 6. ബട്ടണുകൾ */
+    /* 6. മറ്റ് സാധാരണ ബട്ടണുകൾ */
     .stButton>button {
         background-color: #3b82f6 !important;
         color: #ffffff !important;
