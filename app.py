@@ -85,8 +85,20 @@ else:
 
 if credits <= 0:
     st.sidebar.error("❌ No credits left!")
-    render_recharge_ui()
-    st.stop()
+    import io
+import qrcode
+
+
+def generate_upi_qr(upi_id: str = "shoukathali.kalathingalpalliyali@federal", name: str = "kpspoint"):
+    upi_url = f"upi://pay?pa={upi_id}&pn={name}&cu=INR"
+    qr = qrcode.QRCode(version=1, box_size=8, border=2)
+    qr.add_data(upi_url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+    return buffer
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
