@@ -77,7 +77,7 @@ st.markdown("""
 
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-3.5-flash-lite") # Updated model name for better compatibility
+model = genai.GenerativeModel("gemini-3.5-flash-lite") # Model updated for stability
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
@@ -172,66 +172,15 @@ if user_email:
     tab1, tab2, tab3 = st.tabs(["💬 AI Chat", "🎨 Image Generator", "🎥 Video Generator"])
 
     # TAB 1: CHAT
-    with tab1:    # TAB 1: CHAT
+    with tab1:    
         st.title("🤖 kpspoint AI Assistant")
         st.markdown("💬 **ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ!** | *Ask questions, upload images & chat with full memory!*")
 
-        # Initialize chat history in session state
-        if "messages" not in st.session_state:
-            st.session_state.messages = []
-
-        # Initialize Gemini chat session with proper history
-        if "chat_session" not in st.session_state:
-            # Convert previous messages to Gemini format if restarting
-            st.session_state.chat_session = model.start_chat(history=[])
-
-        # Display previous chat messages from Streamlit session state
-        for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-                if "image" in message and message["image"]:
-                    st.image(message["image"], width=200)
-
-        # File uploader for images
-        uploaded_file = st.file_uploader("Upload an image (Optional) | ഒരു ചിത്രം അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png"], key="chat_img_uploader")
-
-        # Chat Input
-        prompt = st.chat_input("Type your question here... | നിങ്ങളുടെ ചോദ്യം ഇവിടെ ടൈപ്പ് ചെയ്യുക...")
-
-        if prompt:
-            # Display user message
-            with st.chat_message("user"):
-                st.markdown(prompt)
-                img = None
-                if uploaded_file:
-                    img = Image.open(uploaded_file)
-                    st.image(img, width=200, caption="Uploaded Image")
-
-            # Save user message to history
-            st.session_state.messages.append({"role": "user", "content": prompt, "image": img})
-
-            # Get AI response
-            with st.chat_message("assistant"):
-                with st.spinner("⏳ AI ചിന്തിക്കുന്നു... | AI is thinking..."):
-                    try:
-                        # Send message to Gemini chat session
-                        if uploaded_file:
-                            response = st.session_state.chat_session.send_message([img, prompt])
-                        else:
-                            response = st.session_state.chat_session.send_message(prompt)
-
-                        st.markdown(response.text)
-                       # Save assistant response to history
-                        st.session_state.messages.append({"role": "assistant", "content": response.text})
-
-                    except Exception as e:
-                        st.error(f"Error: {e}")
-        st.title("🤖 kpspoint AI Assistant")
-        st.markdown("💬 **ചോദിക്കൂ, ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യൂ, അനലൈസ് ചെയ്യൂ!** | *Ask questions, upload images & chat with full memory!*")
-
+        # Initialize chat session in session state
         if "chat_session" not in st.session_state:
             st.session_state.chat_session = model.start_chat(history=[])
 
+        # Display previous chat messages from history
         for message in st.session_state.chat_session.history:
             role = "user" if message.role == "user" else "assistant"
             with st.chat_message(role):
@@ -239,12 +188,14 @@ if user_email:
                     if part.text:
                         st.markdown(part.text)
 
-        uploaded_file = st.file_uploader("Upload an image (Optional) | ഒരു ചിത്രം അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png"])
+        # File uploader for images & Chat input
+        uploaded_file = st.file_uploader("Upload an image (Optional) | ഒരു ചിത്രം അപ്‌ലോഡ് ചെയ്യുക", type=["jpg", "jpeg", "png"], key="chat_img_uploader")
         prompt = st.chat_input("Type your question here... | നിങ്ങളുടെ ചോദ്യം ഇവിടെ ടൈപ്പ് ചെയ്യുക...")
 
         if prompt:
             with st.chat_message("user"):
                 st.markdown(prompt)
+                img = None
                 if uploaded_file:
                     img = Image.open(uploaded_file)
                     st.image(img, width=200, caption="Uploaded Image")
@@ -253,7 +204,6 @@ if user_email:
                 with st.spinner("⏳ AI ചിന്തിക്കുന്നു... | AI is thinking..."):
                     try:
                         if uploaded_file:
-                            img = Image.open(uploaded_file)
                             response = st.session_state.chat_session.send_message([img, prompt])
                         else:
                             response = st.session_state.chat_session.send_message(prompt)
@@ -267,7 +217,7 @@ if user_email:
         st.title("🎨 AI Image Generator")
         st.markdown("✨ *Generate stunning images just by typing a prompt! (Costs 1 Credit)*")
 
-        img_prompt = st.text_input("Enter image description (in English):", placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution")
+        img_prompt = st.text_input("Enter image description (in English):", placeholder="e.g., A futuristic city with flying cars, cyberpunk style, 8k resolution", key="img_input")
 
         if st.button("Generate Image 🖼️"):
             if img_prompt:
@@ -291,7 +241,7 @@ if user_email:
         st.title("🎥 AI Video Generator")
         st.markdown("🎬 *Generate short cinematic clips and reels! (Costs 5 Credits)*")
 
-        video_prompt = st.text_input("Enter video description (in English):", placeholder="e.g., A futuristic car driving through a neon city at night, cinematic lighting, 4k")
+        video_prompt = st.text_input("Enter video description (in English):", placeholder="e.g., A futuristic car driving through a neon city at night, cinematic lighting, 4k", key="vid_input")
 
         if st.button("Generate Video 🎬"):
             if video_prompt:
