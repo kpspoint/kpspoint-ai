@@ -11,40 +11,48 @@ import io
 st.set_page_config(page_title="kpspoint AI Studio", page_icon="🚀", layout="wide")
 
 # --- Custom CSS for Beautiful Dark UI ---
+# --- Custom CSS for Beautiful Dark UI (Mobile Responsive) ---
 st.markdown("""
 <style>
     /* ആപ്പിന്റെ ബാക്ക്ഗ്രൗണ്ട് കറുപ്പ് ആക്കുന്നു */
     .stApp {
-        background-color: #000000;
+        background-color: #000000 !important;
     }
-    
+
     /* എല്ലാ ടെക്സ്റ്റുകളും വെളുപ്പ് ആക്കുന്നു */
-    p, span, label, h1, h2, h3, h4, h5, h6, div, a {
+    p, span, label, h1, h2, h3, h4, h5, h6, div, a, .stMarkdown {
         color: #ffffff !important;
     }
-    
+
     /* സൈഡ്ബാറിന്റെ ബാക്ക്ഗ്രൗണ്ട് */
     [data-testid="stSidebar"] {
         background-color: #111111 !important;
     }
-    
+
     /* ഇൻപുട്ട് ബോക്സുകൾ */
     .stTextInput>div>div>input, .stTextArea>div>div>textarea {
-        background-color: #222222;
-        color: #ffffff;
+        background-color: #222222 !important;
+        color: #ffffff !important;
     }
-    
+
     /* ബട്ടണുകൾ */
     .stButton>button {
-        background-color: #ffffff;
-        color: #000000;
-        font-weight: bold;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-weight: bold !important;
     }
-    
+
     /* ചാറ്റ് ബോക്സുകൾ */
     .stChatMessage {
-        background-color: #1a1a1a;
-        border: 1px solid #333333;
+        background-color: #1a1a1a !important;
+        border: 1px solid #333333 !important;
+    }
+
+    /* മൊബൈൽ സ്ക്രീനുകളിൽ കളർ വ്യത്യാസം വരാതിരിക്കാൻ */
+    @media (max-width: 768px) {
+        .stApp, [data-testid="stSidebar"] {
+            background-color: #000000 !important;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
