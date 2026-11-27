@@ -30,8 +30,8 @@ st.markdown("""
 
     /* ഇൻപുട്ട് ബോക്സുകൾ */
     .stTextInput>div>div>input, .stTextArea>div>div>textarea {
-        background-color: #222222 !important;
-        color: #ffffff !important;
+        background-color: #ffffff !important;
+        color: #000000 !important;
     }
 
     /* ബട്ടണുകൾ */
@@ -50,7 +50,7 @@ st.markdown("""
     /* മൊബൈൽ സ്ക്രീനുകളിൽ കളർ വ്യത്യാസം വരാതിരിക്കാൻ */
     @media (max-width: 768px) {
         .stApp, [data-testid="stSidebar"] {
-            background-color: #000000 !important;
+            background-color: #ffffff !important;
         }
     }
 </style>
