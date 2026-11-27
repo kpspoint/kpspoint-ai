@@ -228,6 +228,7 @@ with tab3:
 
     video_prompt = st.text_input(
         "Enter video description (in English):",
+        "Enter video description (in English):",
         placeholder="e.g., A futuristic car driving through a neon city at night, cinematic lighting, 4k",
         key="video_prompt_input",
     )
