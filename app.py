@@ -21,7 +21,6 @@ st.markdown(
     </div>
 """,
     unsafe_allow_html=True,
-)
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel("gemini-3.5-flash-lite")
