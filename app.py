@@ -85,7 +85,7 @@ st.markdown(
         /* Chat input-നെ സൈഡ്‌ബാറിന് പുറത്ത്, മെയിൻ സ്ക്രീനിൽ മാത്രം ഒതുക്കി നിർത്താൻ */
         div[data-testid="stChatInput"] {
             position: fixed;
-            bottom: 20px;
+            bottom: 120px;
             z-index: 999;
         }
 
