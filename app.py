@@ -6,7 +6,63 @@ import qrcode
 import replicate
 import streamlit as st
 from supabase import Client, create_client
+import streamlit as st
 
+st.set_page_config(page_title="My AI App", layout="centered")
+
+# --- CUSTOM CSS FOR UI FIXES ---
+st.markdown(
+    """
+    <style>
+        /* 1. Chat input (Typing bar) bottom-il fix cheyyanum shape marranum */
+        .stChatInput {
+            position: fixed;
+            bottom: 20px;
+            background: white;
+            z-index: 100;
+        }
+
+        /* Chat input box-inte shape oru round/smooth aakkaan */
+        .stChatInput textarea {
+            border-radius: 10px !important;
+        }
+
+        /* 2. Image & Video Generator buttons mukalottu pokunnathu thadayaan */
+        .fixed-buttons {
+            position: fixed;
+            bottom: 90px; /* Chat input-num mukalil varan */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99;
+            display: flex;
+            gap: 10px;
+            background: white;
+            padding: 5px;
+        }
+    </style>
+""",
+    unsafe_allow_html=True,
+)
+
+# --- App UI Example ---
+st.title("AI Assistant 🤖")
+st.write("Chat messages ivide varum...")
+
+# --- USER CHAT INPUT LOGIC ---
+prompt = st.chat_input("Type your message here...")
+if prompt:
+    st.write(f"User: {prompt}")
+
+# --- FIXED BUTTONS AT THE BOTTOM ---
+st.markdown(
+    """
+    <div class="fixed-buttons">
+        <button style="border-radius:5px; border:1px solid #ccc; padding:5px 10px; background-color:#f0f2f6; cursor:pointer;">🖼️ Image Generator</button>
+        <button style="border-radius:5px; border:1px solid #ccc; padding:5px 10px; background-color:#f0f2f6; cursor:pointer;">🎥 Video Generator</button>
+    </div>
+""",
+    unsafe_allow_html=True,
+)
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel("gemini-3.5-flash-lite")
