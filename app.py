@@ -9,7 +9,7 @@ from supabase import Client, create_client
 
 # --- API Configuration ---
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-3.5-flash-lite")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 
@@ -76,6 +76,29 @@ def get_image_bytes(output):
 # --- Main App UI ---
 st.set_page_config(
     page_title="kpspoint AI Studio", page_icon="🚀", layout="wide"
+)
+
+# --- CSS Styling to Fix Chat Bar and Layout ---
+st.markdown(
+    """
+    <style>
+        /* Fix chat input container to the bottom */
+        .stChatFloatingInputContainer, div[data-testid="stChatInput"] {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px 20px;
+            background: var(--background-color);
+            z-index: 99999;
+        }
+        /* Add padding to bottom so content doesn't hide behind fixed input */
+        .main .block-container {
+            padding-bottom: 100px;
+        }
+    </style>
+""",
+    unsafe_allow_html=True,
 )
 
 st.sidebar.title("🔐 Login / Sign Up")
@@ -147,9 +170,12 @@ if user_email:
         if "messages" not in st.session_state:
             st.session_state.messages = []
 
-        for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
+        # Chat container to make messages scrollable
+        chat_container = st.container()
+        with chat_container:
+            for message in st.session_state.messages:
+                with st.chat_message(message["role"]):
+                    st.markdown(message["content"])
 
         uploaded_file = st.file_uploader(
             "Upload an image or file (Optional) | ഒരു ചിത്രമോ ഫയലോ അപ്‌ലോഡ് ചെയ്യുക",
@@ -177,26 +203,27 @@ if user_email:
             st.session_state.messages.append(
                 {"role": "user", "content": user_text}
             )
-            with st.chat_message("user"):
-                st.markdown(user_text)
-                if file_to_send and uploaded_file.type.startswith("image/"):
-                    st.image(file_to_send, caption="Uploaded Image")
+            with chat_container:
+                with st.chat_message("user"):
+                    st.markdown(user_text)
+                    if file_to_send and uploaded_file.type.startswith("image/"):
+                        st.image(file_to_send, caption="Uploaded Image")
 
-            with st.chat_message("assistant"):
-                with st.spinner("⏳ AI ചിന്തിക്കുന്നു... | AI is thinking..."):
-                    try:
-                        if file_to_send:
-                            response = model.generate_content(
-                                [file_to_send, user_text]
+                with st.chat_message("assistant"):
+                    with st.spinner("⏳ AI ചിന്തിക്കുന്നു... | AI is thinking..."):
+                        try:
+                            if file_to_send:
+                                response = model.generate_content(
+                                    [file_to_send, user_text]
+                                )
+                            else:
+                                response = model.generate_content(user_text)
+                            st.markdown(response.text)
+                            st.session_state.messages.append(
+                                {"role": "assistant", "content": response.text}
                             )
-                        else:
-                            response = model.generate_content(user_text)
-                        st.markdown(response.text)
-                        st.session_state.messages.append(
-                            {"role": "assistant", "content": response.text}
-                        )
-                    except Exception as e:
-                        st.error(f"Error: {e}")
+                        except Exception as e:
+                            st.error(f"Error: {e}")
 
     # ==================== TAB 2: IMAGE GENERATOR ====================
     with tab2:
