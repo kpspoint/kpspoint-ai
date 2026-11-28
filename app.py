@@ -1,3 +1,51 @@
+import streamlit as st
+
+# പേജിന്റെ ക്രമീകരണങ്ങൾ
+st.set_page_config(
+    page_title="My Premium App", page_icon="✨", layout="wide"
+)
+
+# പ്രീമിയം ലുക്കിനായുള്ള കസ്റ്റം CSS
+st.markdown(
+    """
+    <style>
+    /* പ്രധാന ബാക്ക്ഗ്രൗണ്ട് കളർ മാറ്റാൻ */
+    .stApp {
+        background-color: #0e1117;
+        color: #ffffff;
+    }
+
+    /* ബട്ടണുകൾക്ക് പ്രീമിയം ലുക്ക് നൽകാൻ */
+    .stButton>button {
+        background: linear-gradient(45deg, #FF4B4B, #FF8F8F);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 24px;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+    .stButton>button:hover {
+        background: linear-gradient(45deg, #FF2222, #FF6666);
+        box-shadow: 0 6px 8px rgba(0,0,0,0.3);
+    }
+
+    /* സൈഡ്ബാർ സ്റ്റൈലിing */
+    [data-testid="stSidebar"] {
+        background-color: #161b22;
+    }
+
+    /* കാർഡുകൾ പോലെ തോന്നിക്കാൻ */
+    .css-1r6slb0 {
+        background-color: #1f242d;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    </style>
+""",
+    unsafe_allow_html=True,
+)
 import io
 import os
 import google.generativeai as genai
