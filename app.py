@@ -82,19 +82,22 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-        /* Fix chat input container to the bottom */
-        .stChatFloatingInputContainer, div[data-testid="stChatInput"] {
+        /* Chat input-നെ സൈഡ്‌ബാറിന് പുറത്ത്, മെയിൻ സ്ക്രീനിൽ മാത്രം ഒതുക്കി നിർത്താൻ */
+        div[data-testid="stChatInput"] {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 10px 20px;
-            background: var(--background-color);
-            z-index: 99999;
+            bottom: 20px;
+            z-index: 999;
         }
-        /* Add padding to bottom so content doesn't hide behind fixed input */
+
+        /* വലിയ ടെക്സ്റ്റ് ടൈപ്പ് ചെയ്യുമ്പോൾ പുറത്തേക്ക് പോകാതിരിക്കാൻ */
+        div[data-testid="stChatInput"] textarea {
+            white-space: pre-wrap !important;
+            word-break: break-word !important;
+        }
+
+        /* ചാറ്റ് ബോക്സിന് താഴെ സ്ഥലം നൽകുക */
         .main .block-container {
-            padding-bottom: 100px;
+            padding-bottom: 120px;
         }
     </style>
 """,
